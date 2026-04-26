@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const optionalPasswordInput = z.preprocess((value) => (value === "" ? undefined : value), z.string().min(1).max(128).optional());
+
 const adminRoleSchema = z.enum(["customer", "support", "order_manager", "catalog_manager", "content_editor", "marketing_manager", "admin", "owner"]);
 const adminPermissionSchema = z.enum([
   "dashboard.read",
@@ -141,3 +143,28 @@ export const adminUserPatchSchema = z.object({
   role: adminRoleSchema.optional(),
   status: z.enum(["active", "disabled"]).optional(),
 });
+
+export const adminProfilePatchSchema = z
+  .object({
+    currentPassword: optionalPasswordInput,
+    firstName: z.string().trim().min(1).max(80),
+    lastName: z.string().trim().min(1).max(80),
+    newPassword: z.preprocess((value) => (value === "" ? undefined : value), z.string().min(8).max(128).optional()),
+  })
+  .superRefine((input, context) => {
+    if (input.newPassword && !input.currentPassword) {
+      context.addIssue({
+        code: "custom",
+        message: "Vui lòng nhập mật khẩu hiện tại.",
+        path: ["currentPassword"],
+      });
+    }
+
+    if (input.currentPassword && !input.newPassword) {
+      context.addIssue({
+        code: "custom",
+        message: "Vui lòng nhập mật khẩu mới.",
+        path: ["newPassword"],
+      });
+    }
+  });

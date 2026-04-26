@@ -421,6 +421,41 @@
   align-self: center;
 }
 
+.tsq-admin-avatar-link {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #cfd8e3;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #344054;
+  text-decoration: none;
+}
+
+.tsq-admin-avatar-link span,
+.tsq-admin-profile-avatar {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #182230;
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.tsq-admin-avatar-link span {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+}
+
+.tsq-admin-avatar-link:hover,
+.tsq-admin-avatar-link.active {
+  border-color: #f6b99f;
+  background: #fff4ef;
+}
+
 .tsq-admin-primary-button,
 .tsq-admin-login-form button {
   background: #d64d17;
@@ -487,6 +522,11 @@
   color: #475467;
   font-size: 13px;
   font-weight: 700;
+}
+
+.tsq-admin-quick-form input:disabled {
+  background: #f8fafc;
+  color: #667085;
 }
 
 .tsq-admin-checkbox-field {
@@ -709,6 +749,41 @@
 
 .tsq-admin-section-spacer {
   margin-top: 18px !important;
+}
+
+.tsq-admin-profile-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.tsq-admin-profile-summary {
+  display: grid;
+  gap: 14px;
+}
+
+.tsq-admin-profile-summary h2 {
+  margin: 0;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.tsq-admin-profile-summary p {
+  margin: 6px 0 0;
+  color: #667085;
+  overflow-wrap: anywhere;
+}
+
+.tsq-admin-profile-avatar {
+  width: 72px;
+  height: 72px;
+  font-size: 24px;
+}
+
+.tsq-admin-profile-form {
+  display: grid;
+  gap: 8px;
 }
 
 .tsq-admin-media-grid {
@@ -962,7 +1037,8 @@
   .tsq-admin,
   .tsq-admin-resource-grid,
   .tsq-admin-dashboard-grid,
-  .tsq-admin-metrics-grid {
+  .tsq-admin-metrics-grid,
+  .tsq-admin-profile-grid {
     grid-template-columns: 1fr;
   }
 

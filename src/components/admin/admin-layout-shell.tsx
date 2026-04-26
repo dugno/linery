@@ -37,6 +37,14 @@ type ApiEnvelope<T> = {
   success: boolean;
 };
 
+type AdminProfileUpdatedEvent = CustomEvent<{
+  customer?: {
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+}>;
+
 const navItems = [
   { href: "/admin", marker: "D", permission: "dashboard.read", titleKey: "admin.nav.dashboard" },
   { href: "/admin/products", marker: "P", permission: "products.read", titleKey: "admin.nav.products" },
@@ -66,6 +74,16 @@ async function fetchAdminMe() {
   return payload.data as AdminMe;
 }
 
+function getInitials(admin: AdminMe | null) {
+  const customerInitials = [admin?.customer?.lastName, admin?.customer?.firstName]
+    .map((value) => value?.trim().charAt(0) || "")
+    .filter(Boolean)
+    .join("")
+    .slice(0, 2);
+
+  return (customerInitials || admin?.customer?.email?.charAt(0) || admin?.user.email?.charAt(0) || "A").toUpperCase();
+}
+
 export default function AdminLayoutShell({ children }: { children: React.ReactNode }) {
   const { t } = useLanguage();
   const pathname = usePathname();
@@ -80,6 +98,7 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
 
     return customerName || admin?.customer?.email || admin?.user.email || "Admin";
   }, [admin]);
+  const avatarInitials = useMemo(() => getInitials(admin), [admin]);
 
   useEffect(() => {
     if (isLoginPage) {
@@ -106,6 +125,34 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
       ignore = true;
     };
   }, [isLoginPage, router]);
+
+  useEffect(() => {
+    function updateProfile(event: Event) {
+      const detail = (event as AdminProfileUpdatedEvent).detail;
+
+      if (!detail?.customer) {
+        return;
+      }
+
+      setAdmin((currentAdmin) =>
+        currentAdmin
+          ? {
+              ...currentAdmin,
+              customer: {
+                ...(currentAdmin.customer || {}),
+                ...detail.customer,
+              },
+            }
+          : currentAdmin,
+      );
+    }
+
+    window.addEventListener("tsq-admin-profile-updated", updateProfile);
+
+    return () => {
+      window.removeEventListener("tsq-admin-profile-updated", updateProfile);
+    };
+  }, []);
 
   async function logout() {
     await fetch("/api/auth/logout", {
@@ -188,6 +235,9 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
               {t("admin.nav.store")}
             </Link>
             <LanguageSwitcher />
+            <Link href="/admin/profile" className={`tsq-admin-avatar-link ${pathname === "/admin/profile" ? "active" : ""}`} aria-label="Mở hồ sơ admin" title="Hồ sơ admin">
+              <span>{avatarInitials}</span>
+            </Link>
           </div>
         </header>
         <AdminPermissionProvider permissions={admin?.permissions || []} role={admin?.role} showAdvancedJsonEditor={admin?.adminUi?.showAdvancedJsonEditor !== false}>

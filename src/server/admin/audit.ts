@@ -2,7 +2,7 @@ import { FieldValue, getFirebaseAdmin } from "@/server/firebase-admin";
 
 import type { AdminUser } from "./auth";
 
-export type AuditAction = "archive" | "create" | "delete" | "patch" | "role_update" | "upload" | "user_status_update";
+export type AuditAction = "archive" | "create" | "delete" | "password_change" | "patch" | "profile_update" | "role_update" | "upload" | "user_status_update";
 
 export async function writeAuditLog({
   action,
