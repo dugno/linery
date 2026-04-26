@@ -1,0 +1,23 @@
+.ega-cr-addon li.ega-menu__item.ega-loadmore-btn {
+	display: var(--show-loadmore);
+}
+.ega-cr-addon li.ega-menu__item.ega-loadmore-btn + li.ega-menu__item {
+	order: var(--order-loadmore);
+}
+#crCartModal .crbtn-modal__right b {
+	color: var(--price-color);
+}
+@media (max-width: 767px) {
+	.ega-smartsearch-item__image {
+		width: 60px !important;
+ }
+	.ega-smartsearch-item__image img {
+		max-width: 60px !important;
+		max-height: 60px !important;
+ }
+}
+@media (max-width: 767px) {
+	#ega-smartsearch-search-suggestion.sticky:before, #ega-smartsearch-search-suggestion.sticky:after {
+		right: 90px;
+ }
+}
