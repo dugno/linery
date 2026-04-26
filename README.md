@@ -44,6 +44,39 @@ npm run build
 npm run start
 ```
 
+## Deploy Netlify
+
+Repo đã có `netlify.toml` cho Netlify:
+
+- Build command: `npm run build`
+- Publish directory: `.next`
+- Node runtime: `22`
+
+Không commit `.env.local`. Trên Netlify, thêm các biến môi trường trong **Site configuration → Environment variables** với scope **Builds** và **Functions**:
+
+```txt
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_WEB_API_KEY=
+FIREBASE_STORAGE_BUCKET=
+SEED_DEFAULT_INVENTORY_QUANTITY=1
+```
+
+`FIREBASE_PRIVATE_KEY` nên nhập dạng một dòng có `\n`:
+
+```txt
+-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n
+```
+
+Nếu dùng Netlify CLI sau khi login/link site, có thể import biến từ local mà không commit secret:
+
+```bash
+npx netlify-cli env:import .env.local
+```
+
+Sau khi đổi environment variables trên Netlify, trigger deploy lại để server functions nhận giá trị mới.
+
 ## Backend Firestore
 
 Tạo `.env.local` từ `.env.example`:
