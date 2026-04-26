@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import SitePage from "@/components/site-page";
-import { localeCookieName, normalizeLocale } from "@/lib/i18n";
 import { getAllRoutes, getSiteSettings, getStorefrontPage } from "@/lib/storefront";
 
 type CatchAllPageProps = {
@@ -17,6 +15,7 @@ function toPath(slug: string[]) {
 }
 
 export const dynamicParams = false;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const routes = await getAllRoutes();
@@ -51,11 +50,10 @@ export default async function CatchAllPage({ params }: CatchAllPageProps) {
   const { slug } = await params;
   const page = await getStorefrontPage(toPath(slug));
   const settings = await getSiteSettings();
-  const locale = normalizeLocale((await cookies()).get(localeCookieName)?.value);
 
   if (!page) {
     notFound();
   }
 
-  return <SitePage locale={locale} page={page} settings={settings} />;
+  return <SitePage locale="vi" page={page} settings={settings} />;
 }

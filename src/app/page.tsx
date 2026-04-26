@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import SitePage from "@/components/site-page";
-import { localeCookieName, normalizeLocale } from "@/lib/i18n";
 import { getSiteSettings, getStorefrontPage } from "@/lib/storefront";
+
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getStorefrontPage("/");
@@ -25,11 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const page = await getStorefrontPage("/");
   const settings = await getSiteSettings();
-  const locale = normalizeLocale((await cookies()).get(localeCookieName)?.value);
 
   if (!page) {
     notFound();
   }
 
-  return <SitePage locale={locale} page={page} settings={settings} />;
+  return <SitePage locale="vi" page={page} settings={settings} />;
 }

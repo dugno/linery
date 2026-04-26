@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import BodyClassBridge from "@/components/body-class-bridge";
-import LanguageSwitcher from "@/components/language-switcher";
 import { getCartPreviewItem } from "@/lib/cart-preview";
 import { localeCookieName, normalizeLocale, t } from "@/lib/i18n";
 import { getSiteSettings } from "@/lib/storefront";
@@ -61,7 +60,6 @@ export default async function CheckoutPage() {
             <Link href="/">
               {settings.logo?.src ? <Image src={settings.logo.src} alt={settings.logo.alt || "Tiệm sách Quýt"} width={88} height={44} /> : null}
             </Link>
-            <LanguageSwitcher />
           </header>
           <div className="main__content tsq-checkout-content">
             <section className="section tsq-checkout-info">

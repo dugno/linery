@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import AccountPageContent from "@/components/account-page";
 import BodyClassBridge from "@/components/body-class-bridge";
-import LanguageSwitcher from "@/components/language-switcher";
 import SearchProducts from "@/components/search-products";
 import { getCartPreviewItem } from "@/lib/cart-preview";
 import { t, type Locale } from "@/lib/i18n";
@@ -166,7 +165,7 @@ function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettin
           </div>
 
           <div className="header-right ega-d--flex">
-            <div className="icon-action header-right__icons" style={{ ["--header-grid-template" as never]: "repeat(4, 1fr)" }}>
+            <div className="icon-action header-right__icons" style={{ ["--header-grid-template" as never]: "repeat(3, 1fr)" }}>
               <SiteLink className="header-icon icon-action__search icon-action__search--desktop" href="/search">
                 {settings.searchIcon?.src ? <img src={settings.searchIcon.src} alt={settings.searchIcon.alt || "icon-search"} /> : t(locale, "common.search")}
               </SiteLink>
@@ -179,7 +178,6 @@ function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettin
                   <span className="count_item count_item_pr">0</span>
                 </SiteLink>
               </div>
-              <LanguageSwitcher className="tsq-language-switcher-site" />
             </div>
           </div>
         </div>

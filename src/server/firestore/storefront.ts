@@ -1,8 +1,40 @@
+import { unstable_cache } from "next/cache";
+
 import { getFirebaseAdmin } from "@/server/firebase-admin";
 import { formatVndPrice } from "@/server/money";
 import { serializeFirestoreValue } from "@/server/firestore/serialize";
 import type { AccountPage, Article, Blog, CartPage, Collection, HomePage, ProductCardData, RouteEntry, SearchPage, SiteSettings, StaticContentPage, UnknownPage } from "@/content/types";
 import type { ProductCardApi, ProductDocument } from "@/server/firestore/models";
+
+const storefrontCacheOptions = {
+  revalidate: 300,
+  tags: ["storefront"],
+};
+
+type StorefrontCacheOptions = {
+  revalidate: number;
+  tags: string[];
+};
+
+function cacheStorefront<Args extends unknown[], Result>(
+  fn: (...args: Args) => Promise<Result>,
+  keyParts: string[],
+  options: StorefrontCacheOptions,
+) {
+  const cached = unstable_cache(fn, keyParts, options);
+
+  return async (...args: Args) => {
+    try {
+      return await cached(...args);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("incrementalCache missing")) {
+        return fn(...args);
+      }
+
+      throw error;
+    }
+  };
+}
 
 export type ProductListOptions = {
   author?: string;
@@ -93,19 +125,19 @@ function sortProducts(products: ProductDocument[], sort?: string) {
   });
 }
 
-export async function getSiteSettings() {
+export const getSiteSettings = cacheStorefront(async () => {
   const snapshot = await getCollection("siteSettings").doc("main").get();
 
   return docData<SiteSettings>(snapshot);
-}
+}, ["storefront-site-settings"], { ...storefrontCacheOptions, tags: ["storefront", "site-settings"] });
 
-export async function getHome() {
+export const getHome = cacheStorefront(async () => {
   const snapshot = await getCollection("home").doc("main").get();
 
   return docData<HomePage & { href: string; slug: string; type: "home" }>(snapshot);
-}
+}, ["storefront-home"], storefrontCacheOptions);
 
-export async function getProduct(slug: string) {
+export const getProduct = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("products").doc(slug).get();
   const product = docData<ProductDocument & { bodyClass?: string; bodyId?: string; relatedProducts?: ProductCardData[]; type: "product" }>(snapshot);
 
@@ -120,9 +152,9 @@ export async function getProduct(slug: string) {
     price: formatVndPrice(product.price),
     priceValue: product.price,
   };
-}
+}, ["storefront-product"], { ...storefrontCacheOptions, tags: ["storefront", "products"] });
 
-export async function listProducts(options: ProductListOptions): Promise<ProductListResult> {
+export const listProducts = cacheStorefront(async (options: ProductListOptions): Promise<ProductListResult> => {
   let query: FirebaseFirestore.Query = getCollection("products").where("status", "==", "active");
 
   if (options.collection) {
@@ -158,81 +190,81 @@ export async function listProducts(options: ProductListOptions): Promise<Product
     items: visibleProducts.map(productToCard),
     nextCursor: nextProduct?.slug,
   };
-}
+}, ["storefront-products-list"], { ...storefrontCacheOptions, tags: ["storefront", "products"] });
 
-export async function listCollections() {
+export const listCollections = cacheStorefront(async () => {
   const snapshot = await getCollection("collections").get();
 
   return snapshot.docs
     .map((doc) => docData<Collection>(doc))
     .filter((collection): collection is Collection & { id: string } => Boolean(collection))
     .sort((left, right) => left.title.localeCompare(right.title));
-}
+}, ["storefront-collections-list"], { ...storefrontCacheOptions, tags: ["storefront", "collections"] });
 
-export async function getCollectionBySlug(slug: string) {
+export const getCollectionBySlug = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("collections").doc(slug).get();
 
   return docData<Collection>(snapshot);
-}
+}, ["storefront-collection"], { ...storefrontCacheOptions, tags: ["storefront", "collections"] });
 
-export async function getPage(slug: string) {
+export const getPage = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("pages").doc(slug).get();
 
   return docData<StaticContentPage>(snapshot);
-}
+}, ["storefront-page"], { ...storefrontCacheOptions, tags: ["storefront", "pages"] });
 
-export async function getBlog(slug: string) {
+export const getBlog = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("blogs").doc(slug).get();
 
   return docData<Blog>(snapshot);
-}
+}, ["storefront-blog"], { ...storefrontCacheOptions, tags: ["storefront", "blogs"] });
 
-export async function getArticle(slug: string) {
+export const getArticle = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("articles").doc(slug).get();
 
   return docData<Article>(snapshot);
-}
+}, ["storefront-article"], { ...storefrontCacheOptions, tags: ["storefront", "articles"] });
 
-export async function getAccountPage(slug: string) {
+export const getAccountPage = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("accounts").doc(slug).get();
 
   return docData<AccountPage>(snapshot);
-}
+}, ["storefront-account"], storefrontCacheOptions);
 
-export async function getCartPage() {
+export const getCartPage = cacheStorefront(async () => {
   const snapshot = await getCollection("cart").doc("main").get();
 
   return docData<CartPage>(snapshot);
-}
+}, ["storefront-cart"], storefrontCacheOptions);
 
-export async function getSearchPage() {
+export const getSearchPage = cacheStorefront(async () => {
   const snapshot = await getCollection("search").doc("main").get();
 
   return docData<SearchPage>(snapshot);
-}
+}, ["storefront-search-page"], storefrontCacheOptions);
 
-export async function getUnknownPage(slug: string) {
+export const getUnknownPage = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("unknownPages").doc(slug).get();
 
   return docData<UnknownPage>(snapshot);
-}
+}, ["storefront-unknown-page"], storefrontCacheOptions);
 
-export async function getRoute(path: string) {
+export const getRoute = cacheStorefront(async (path: string) => {
   const snapshot = await getCollection("routes").doc(sanitizeDocId(path)).get();
 
   return docData<RouteEntry>(snapshot);
-}
+}, ["storefront-route"], { ...storefrontCacheOptions, tags: ["storefront", "routes"] });
 
-export async function listRoutes() {
+export const listRoutes = cacheStorefront(async () => {
   const snapshot = await getCollection("routes").get();
 
   return snapshot.docs
     .map((doc) => docData<RouteEntry>(doc))
     .filter((route): route is RouteEntry & { id: string } => Boolean(route))
     .sort((left, right) => left.route.localeCompare(right.route));
-}
+}, ["storefront-routes-list"], { ...storefrontCacheOptions, tags: ["storefront", "routes"] });
 
-export async function searchStorefront(query: string, type?: string, limit = 48) {
+export const searchStorefront = cacheStorefront(async (query: string, type: string | undefined = undefined, limit: number = 48) => {
   const normalizedQuery = query.trim().toLowerCase();
 
   if (!normalizedQuery) {
@@ -249,4 +281,4 @@ export async function searchStorefront(query: string, type?: string, limit = 48)
     .filter((item) => !type || item.type === type)
     .filter((item) => [item.title, item.author, item.type].filter(Boolean).join(" ").toLowerCase().includes(normalizedQuery))
     .slice(0, limit);
-}
+}, ["storefront-search"], storefrontCacheOptions);
