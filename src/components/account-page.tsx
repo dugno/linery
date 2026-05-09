@@ -39,7 +39,7 @@ function getGoogleLoginUrl(redirectUrl: string) {
 }
 
 function SocialLoginButtons({ locale, page, withTopMarginClass = false }: { locale: Locale; page: AccountPage; withTopMarginClass?: boolean }) {
-  const redirectUrl = `https://tiemsachquyt.com${page.href}`;
+  const redirectUrl = `https://linery.com${page.href}`;
 
   return (
     <div className={`block social-login--facebooks ${withTopMarginClass ? "margin-top-20 " : ""}text-center`}>

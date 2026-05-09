@@ -5,7 +5,7 @@ import { getSiteAssets } from "@/lib/storefront";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tiệm sách Quýt Rebuild",
+  title: "Linery Rebuild",
   description: "Next.js rebuild for a public storefront",
 };
 

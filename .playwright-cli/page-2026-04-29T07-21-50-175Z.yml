@@ -3,9 +3,9 @@
     - /url: /collections/all
   - banner [ref=e5]:
     - generic [ref=e6]:
-      - link "logo Tiệm sách Quýt" [ref=e8] [cursor=pointer]:
+      - link "logo Linery" [ref=e8] [cursor=pointer]:
         - /url: /
-        - img "logo Tiệm sách Quýt" [ref=e9]
+        - img "logo Linery" [ref=e9]
       - navigation [ref=e12]:
         - list [ref=e13]:
           - listitem [ref=e14]:
@@ -27,9 +27,9 @@
               - /url: /best-sellers
               - generic [ref=e29]: Best-sellers
           - listitem [ref=e30]:
-            - link "Quýt Tập Đọc" [ref=e31] [cursor=pointer]:
+            - link "Linery Tập Đọc" [ref=e31] [cursor=pointer]:
               - /url: /lop-hoc
-              - generic [ref=e32]: Quýt Tập Đọc
+              - generic [ref=e32]: Linery Tập Đọc
       - generic [ref=e34]:
         - link "icon-search" [ref=e35] [cursor=pointer]:
           - /url: /search
@@ -312,10 +312,10 @@
   - contentinfo [ref=e416]:
     - generic [ref=e419]:
       - generic [ref=e421]:
-        - link "logo Tiệm sách Quýt" [ref=e422] [cursor=pointer]:
+        - link "logo Linery" [ref=e422] [cursor=pointer]:
           - /url: /
-          - img "logo Tiệm sách Quýt" [ref=e423]
-        - generic [ref=e424]: Tiệm sách Quýt
+          - img "logo Linery" [ref=e423]
+        - generic [ref=e424]: Linery
       - generic [ref=e426]:
         - generic [ref=e428]:
           - heading "MUA HÀNG" [level=3] [ref=e429]
@@ -333,7 +333,7 @@
               - link "Best-sellers" [ref=e438] [cursor=pointer]:
                 - /url: /best-sellers
             - listitem [ref=e439]:
-              - link "Quýt Tập Đọc" [ref=e440] [cursor=pointer]:
+              - link "Linery Tập Đọc" [ref=e440] [cursor=pointer]:
                 - /url: /lop-hoc
         - generic [ref=e442]:
           - heading "SHORTCUTS" [level=3] [ref=e443]

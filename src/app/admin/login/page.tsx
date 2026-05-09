@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import AdminLoginForm from "@/components/admin/admin-login-form";
 
 export const metadata: Metadata = {
-  title: "Đăng nhập quản trị - Tiệm sách Quýt",
+  title: "Đăng nhập quản trị - Linery",
 };
 
 export default function AdminLoginPage() {

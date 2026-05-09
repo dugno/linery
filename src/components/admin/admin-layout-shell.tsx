@@ -188,9 +188,9 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
       <button className="tsq-admin-drawer-scrim" type="button" aria-label="Đóng menu quản trị" onClick={closeDrawer} />
       <aside className="tsq-admin-sidebar">
         <Link href="/admin" className="tsq-admin-brand">
-          <span className="tsq-admin-brand-mark">Q</span>
+          <span className="tsq-admin-brand-mark">L</span>
           <span>
-            <strong>Tiệm sách Quýt</strong>
+            <strong>Linery</strong>
             <small>{t("admin.brand.subtitle")}</small>
           </span>
         </Link>

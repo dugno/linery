@@ -1,6 +1,6 @@
-# Tiệm Sách Quýt Next Storefront
+# Linery Next Storefront
 
-Next.js storefront của Tiệm Sách Quýt dùng data layer có cấu trúc. Runtime đọc nội dung từ Cloud Firestore và đọc ảnh từ Firebase Storage.
+Next.js storefront của Linery dùng data layer có cấu trúc. Runtime đọc nội dung từ Cloud Firestore và đọc ảnh từ Firebase Storage.
 
 ## Cách Hoạt Động
 

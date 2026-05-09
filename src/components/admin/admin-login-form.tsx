@@ -65,9 +65,9 @@ export default function AdminLoginForm() {
     <div className="tsq-admin-login">
       <section className="tsq-admin-login-panel">
         <div className="tsq-admin-login-brand">
-          <span className="tsq-admin-brand-mark">Q</span>
+          <span className="tsq-admin-brand-mark">L</span>
           <div>
-            <strong>Tiệm sách Quýt</strong>
+            <strong>Linery</strong>
             <span>{t("admin.brand.subtitle")}</span>
           </div>
         </div>
