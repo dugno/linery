@@ -1,0 +1,355 @@
+- generic [active] [ref=e1]:
+  - link "Click here to browse our full collection" [ref=e4] [cursor=pointer]:
+    - /url: /collections/all
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "logo Tiệm sách Quýt" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "logo Tiệm sách Quýt" [ref=e9]
+      - navigation [ref=e12]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "Home" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e16]: Home
+          - listitem [ref=e17]:
+            - link "Fiction" [ref=e18] [cursor=pointer]:
+              - /url: /fiction
+              - generic [ref=e19]: Fiction
+              - img [ref=e21]
+          - listitem [ref=e22]:
+            - link "Non-fiction" [ref=e23] [cursor=pointer]:
+              - /url: /non-fiction
+              - generic [ref=e24]: Non-fiction
+              - img [ref=e26]
+          - listitem [ref=e27]:
+            - link "Best-sellers" [ref=e28] [cursor=pointer]:
+              - /url: /best-sellers
+              - generic [ref=e29]: Best-sellers
+          - listitem [ref=e30]:
+            - link "Quýt Tập Đọc" [ref=e31] [cursor=pointer]:
+              - /url: /lop-hoc
+              - generic [ref=e32]: Quýt Tập Đọc
+      - generic [ref=e34]:
+        - link "icon-search" [ref=e35] [cursor=pointer]:
+          - /url: /search
+          - img "icon-search" [ref=e36]
+        - link "icon-account" [ref=e37] [cursor=pointer]:
+          - /url: /account/login
+          - img "icon-account" [ref=e38]
+        - link "icon-cart 0" [ref=e40] [cursor=pointer]:
+          - /url: /cart
+          - img "icon-cart" [ref=e41]
+          - generic [ref=e42]: "0"
+  - list [ref=e45]:
+    - listitem [ref=e46]:
+      - link "Trang chủ" [ref=e47] [cursor=pointer]:
+        - /url: /
+    - listitem [ref=e48]:
+      - text: /
+      - strong [ref=e49]: Fiction
+  - generic [ref=e52]:
+    - heading "Fiction" [level=1] [ref=e54]
+    - generic [ref=e55]:
+      - complementary [ref=e57]:
+        - generic [ref=e59]:
+          - complementary [ref=e60]:
+            - heading "Author" [level=2] [ref=e62]
+            - list [ref=e64]:
+              - listitem [ref=e65]:
+                - generic [ref=e67]: Mavis Gallant
+              - listitem [ref=e68]:
+                - generic [ref=e70]: John Milton
+              - listitem [ref=e71]:
+                - generic [ref=e73]: Andrey Platonov
+              - listitem [ref=e74]:
+                - generic [ref=e76]: Mary Shelley
+              - listitem [ref=e77]:
+                - generic [ref=e79]: Antonio Tabucchi
+              - listitem [ref=e80]:
+                - generic [ref=e82]: Tomás González
+              - listitem [ref=e83]:
+                - generic [ref=e85]: Renee Gladman
+              - listitem [ref=e86]:
+                - generic [ref=e88]: Amina Cain
+              - listitem [ref=e89]:
+                - generic [ref=e91]: Adania Shibli
+              - listitem [ref=e92]:
+                - generic [ref=e94]: Claire-Louise Bennett
+              - listitem [ref=e95]:
+                - generic [ref=e97]: Vincenzo Latronico
+              - listitem [ref=e98]:
+                - generic [ref=e100]: Charlotte Perkins Gilman
+          - complementary [ref=e101]:
+            - heading "Condition" [level=2] [ref=e103]
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - generic [ref=e108]: Used - Good with Library Marking
+              - listitem [ref=e109]:
+                - generic [ref=e111]: Used - Like New (with Library Mark in the Cover)
+              - listitem [ref=e112]:
+                - generic [ref=e114]: Used - Like New
+              - listitem [ref=e115]:
+                - generic [ref=e117]: Used - Very Good with Library Marking
+              - listitem [ref=e118]:
+                - generic [ref=e120]: Used - Acceptable
+              - listitem [ref=e121]:
+                - generic [ref=e123]: Used - Good
+              - listitem [ref=e124]:
+                - generic [ref=e126]: Used - Very Good
+              - listitem [ref=e127]:
+                - generic [ref=e129]: New (Slight Defects)
+              - listitem [ref=e130]:
+                - generic [ref=e132]: New
+          - complementary [ref=e133]:
+            - heading "Content" [level=2] [ref=e135]
+            - list [ref=e137]:
+              - listitem [ref=e138]:
+                - generic [ref=e140]: Existential
+              - listitem [ref=e141]:
+                - generic [ref=e143]: Introspective
+              - listitem [ref=e144]:
+                - generic [ref=e146]: Coming-Of-Age
+              - listitem [ref=e147]:
+                - generic [ref=e149]: Memory
+              - listitem [ref=e150]:
+                - generic [ref=e152]: Identity
+              - listitem [ref=e153]:
+                - generic [ref=e155]: Psychological
+              - listitem [ref=e156]:
+                - generic [ref=e158]: Nostalgic
+              - listitem [ref=e159]:
+                - generic [ref=e161]: Reflective
+              - listitem [ref=e162]:
+                - generic [ref=e164]: Poignant
+              - listitem [ref=e165]:
+                - generic [ref=e167]: Philosophical
+              - listitem [ref=e168]:
+                - generic [ref=e170]: Historical Fiction
+              - listitem [ref=e171]:
+                - generic [ref=e173]: Classic
+      - generic [ref=e175]:
+        - generic [ref=e177]:
+          - link "Nocturnal Apparitions" [ref=e179] [cursor=pointer]:
+            - /url: /nocturnal-apparitions
+            - img "Nocturnal Apparitions" [ref=e180]
+          - generic [ref=e181]:
+            - generic [ref=e182]: Bruno Schulz
+            - link "Nocturnal Apparitions" [ref=e184] [cursor=pointer]:
+              - /url: /nocturnal-apparitions
+            - generic [ref=e187]: 380.000₫
+        - generic [ref=e189]:
+          - link "Dead-End Memories (hardcover)" [ref=e191] [cursor=pointer]:
+            - /url: /dead-end-memories-1
+            - img "Dead-End Memories (hardcover)" [ref=e192]
+          - generic [ref=e193]:
+            - generic [ref=e194]: Banana Yoshimoto
+            - link "Dead-End Memories (hardcover)" [ref=e196] [cursor=pointer]:
+              - /url: /dead-end-memories-1
+            - generic [ref=e199]: 305.000₫
+        - generic [ref=e201]:
+          - link "Kitchen" [ref=e203] [cursor=pointer]:
+            - /url: /kitchen-1
+            - img "Kitchen" [ref=e204]
+          - generic [ref=e205]:
+            - generic [ref=e206]: Banana Yoshimoto
+            - link "Kitchen" [ref=e208] [cursor=pointer]:
+              - /url: /kitchen-1
+            - generic [ref=e211]: 289.000₫
+        - generic [ref=e213]:
+          - link "Dancing Lessons for the Advanced in Age" [ref=e215] [cursor=pointer]:
+            - /url: /dancing-lessons-for-the-advanced-in-age
+            - img "Dancing Lessons for the Advanced in Age" [ref=e216]
+          - generic [ref=e217]:
+            - generic [ref=e218]: Bohumil Hrabal
+            - link "Dancing Lessons for the Advanced in Age" [ref=e220] [cursor=pointer]:
+              - /url: /dancing-lessons-for-the-advanced-in-age
+            - generic [ref=e223]: 350.000₫
+        - generic [ref=e225]:
+          - link "Frankenstein" [ref=e227] [cursor=pointer]:
+            - /url: /frankenstein
+            - img "Frankenstein" [ref=e228]
+          - generic [ref=e229]:
+            - generic [ref=e230]: Mary Shelley
+            - link "Frankenstein" [ref=e232] [cursor=pointer]:
+              - /url: /frankenstein
+            - generic [ref=e235]: 285.000₫
+        - generic [ref=e237]:
+          - link "The Brothers Karamazov" [ref=e239] [cursor=pointer]:
+            - /url: /the-brothers-karamazov-3
+            - img "The Brothers Karamazov" [ref=e240]
+          - generic [ref=e241]:
+            - generic [ref=e242]: Fyodor Dostoevsky
+            - link "The Brothers Karamazov" [ref=e244] [cursor=pointer]:
+              - /url: /the-brothers-karamazov-3
+            - generic [ref=e247]: 470.000₫
+        - generic [ref=e249]:
+          - link "Event Factory" [ref=e251] [cursor=pointer]:
+            - /url: /event-factory
+            - img "Event Factory" [ref=e252]
+          - generic [ref=e253]:
+            - generic [ref=e254]: Renee Gladman
+            - link "Event Factory" [ref=e256] [cursor=pointer]:
+              - /url: /event-factory
+            - generic [ref=e259]: 350.000₫
+        - generic [ref=e261]:
+          - link "The Yellow Wall-Paper" [ref=e263] [cursor=pointer]:
+            - /url: /the-yellow-wall-paper
+            - img "The Yellow Wall-Paper" [ref=e264]
+          - generic [ref=e265]:
+            - generic [ref=e266]: Charlotte Perkins Gilman
+            - link "The Yellow Wall-Paper" [ref=e268] [cursor=pointer]:
+              - /url: /the-yellow-wall-paper
+            - generic [ref=e271]: 289.000₫
+        - generic [ref=e273]:
+          - link "Apple and Knife" [ref=e275] [cursor=pointer]:
+            - /url: /apple-and-knife
+            - img "Apple and Knife" [ref=e276]
+          - generic [ref=e277]:
+            - generic [ref=e278]: Intan Paramaditha
+            - link "Apple and Knife" [ref=e280] [cursor=pointer]:
+              - /url: /apple-and-knife
+            - generic [ref=e283]: 289.000₫
+        - generic [ref=e285]:
+          - link "Final Exam" [ref=e287] [cursor=pointer]:
+            - /url: /final-exam
+            - img "Final Exam" [ref=e288]
+          - generic [ref=e289]:
+            - generic [ref=e290]: Julio Cortázar
+            - link "Final Exam" [ref=e292] [cursor=pointer]:
+              - /url: /final-exam
+            - generic [ref=e295]: 320.000₫
+        - generic [ref=e297]:
+          - link "Crime and Punishment" [ref=e299] [cursor=pointer]:
+            - /url: /crime-and-punishment-4
+            - img "Crime and Punishment" [ref=e300]
+          - generic [ref=e301]:
+            - generic [ref=e302]: Fyodor Dostoevsky
+            - link "Crime and Punishment" [ref=e304] [cursor=pointer]:
+              - /url: /crime-and-punishment-4
+            - generic [ref=e307]: 389.000₫
+        - generic [ref=e309]:
+          - link "The Brothers Karamazov" [ref=e311] [cursor=pointer]:
+            - /url: /the-brothers-karamazov-2
+            - img "The Brothers Karamazov" [ref=e312]
+          - generic [ref=e313]:
+            - generic [ref=e314]: Fyodor Dostoevsky
+            - link "The Brothers Karamazov" [ref=e316] [cursor=pointer]:
+              - /url: /the-brothers-karamazov-2
+            - generic [ref=e319]: 389.000₫
+        - generic [ref=e321]:
+          - link "All Fires the Fire" [ref=e323] [cursor=pointer]:
+            - /url: /all-fires-the-fire
+            - img "All Fires the Fire" [ref=e324]
+          - generic [ref=e325]:
+            - generic [ref=e326]: Julio Cortázar
+            - link "All Fires the Fire" [ref=e328] [cursor=pointer]:
+              - /url: /all-fires-the-fire
+            - generic [ref=e331]: 399.000₫
+        - generic [ref=e333]:
+          - link "The Apple in the Dark" [ref=e335] [cursor=pointer]:
+            - /url: /the-apple-in-the-dark-1
+            - img "The Apple in the Dark" [ref=e336]
+          - generic [ref=e337]:
+            - generic [ref=e338]: Clarice Lispector
+            - link "The Apple in the Dark" [ref=e340] [cursor=pointer]:
+              - /url: /the-apple-in-the-dark-1
+            - generic [ref=e343]: 469.000₫
+        - generic [ref=e345]:
+          - link "The Besieged City" [ref=e347] [cursor=pointer]:
+            - /url: /the-besieged-city-1
+            - img "The Besieged City" [ref=e348]
+          - generic [ref=e349]:
+            - generic [ref=e350]: Clarice Lispector
+            - link "The Besieged City" [ref=e352] [cursor=pointer]:
+              - /url: /the-besieged-city-1
+            - generic [ref=e355]: 425.000₫
+        - generic [ref=e357]:
+          - link "Poor Folk and Other Stories" [ref=e359] [cursor=pointer]:
+            - /url: /poor-folk-and-other-stories
+            - img "Poor Folk and Other Stories" [ref=e360]
+          - generic [ref=e361]:
+            - generic [ref=e362]: Fyodor Dostoevsky
+            - link "Poor Folk and Other Stories" [ref=e364] [cursor=pointer]:
+              - /url: /poor-folk-and-other-stories
+            - generic [ref=e367]: 359.000₫
+        - generic [ref=e369]:
+          - link "The Obscene Madame D" [ref=e371] [cursor=pointer]:
+            - /url: /the-obscene-madame-d
+            - img "The Obscene Madame D" [ref=e372]
+          - generic [ref=e373]:
+            - generic [ref=e374]: Hilda Hilst
+            - link "The Obscene Madame D" [ref=e376] [cursor=pointer]:
+              - /url: /the-obscene-madame-d
+            - generic [ref=e379]: 345.000₫
+        - generic [ref=e381]:
+          - 'link "A Different Sound: Stories by Mid-Century Women Writers" [ref=e383] [cursor=pointer]':
+            - /url: /a-different-sound-stories-by-mid-century-women-writers
+            - 'img "A Different Sound: Stories by Mid-Century Women Writers" [ref=e384]'
+          - generic [ref=e385]:
+            - generic [ref=e386]: Various Authors
+            - 'link "A Different Sound: Stories by Mid-Century Women Writers" [ref=e388] [cursor=pointer]':
+              - /url: /a-different-sound-stories-by-mid-century-women-writers
+            - generic [ref=e391]: 389.000₫
+        - generic [ref=e393]:
+          - link "Two Serious Ladies" [ref=e395] [cursor=pointer]:
+            - /url: /two-serious-ladies
+            - img "Two Serious Ladies" [ref=e396]
+          - generic [ref=e397]:
+            - generic [ref=e398]: Jane Bowles
+            - link "Two Serious Ladies" [ref=e400] [cursor=pointer]:
+              - /url: /two-serious-ladies
+            - generic [ref=e403]: 389.000₫
+        - generic [ref=e405]:
+          - 'link "Collected Stories: Shirley Hazzard" [ref=e407] [cursor=pointer]':
+            - /url: /collected-stories-shirley-hazzard
+            - 'img "Collected Stories: Shirley Hazzard" [ref=e408]'
+          - generic [ref=e409]:
+            - generic [ref=e410]: Shirley Hazzard
+            - 'link "Collected Stories: Shirley Hazzard" [ref=e412] [cursor=pointer]':
+              - /url: /collected-stories-shirley-hazzard
+            - generic [ref=e415]: 385.000₫
+  - contentinfo [ref=e416]:
+    - generic [ref=e419]:
+      - generic [ref=e421]:
+        - link "logo Tiệm sách Quýt":
+          - /url: /
+          - img "logo Tiệm sách Quýt"
+        - generic [ref=e422]: Tiệm sách Quýt
+      - generic [ref=e424]:
+        - generic [ref=e426]:
+          - heading "MUA HÀNG" [level=3] [ref=e427]
+          - list [ref=e428]:
+            - listitem [ref=e429]:
+              - link "Home" [ref=e430] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e431]:
+              - link "Fiction" [ref=e432] [cursor=pointer]:
+                - /url: /fiction
+            - listitem [ref=e433]:
+              - link "Non-fiction" [ref=e434] [cursor=pointer]:
+                - /url: /non-fiction
+            - listitem [ref=e435]:
+              - link "Best-sellers" [ref=e436] [cursor=pointer]:
+                - /url: /best-sellers
+            - listitem [ref=e437]:
+              - link "Quýt Tập Đọc" [ref=e438] [cursor=pointer]:
+                - /url: /lop-hoc
+        - generic [ref=e440]:
+          - heading "SHORTCUTS" [level=3] [ref=e441]
+          - list [ref=e442]:
+            - listitem [ref=e443]:
+              - link "Tìm kiếm" [ref=e444] [cursor=pointer]:
+                - /url: /search
+            - listitem [ref=e445]:
+              - link "Đăng nhập" [ref=e446] [cursor=pointer]:
+                - /url: /account/login
+            - listitem [ref=e447]:
+              - link "Đăng ký" [ref=e448] [cursor=pointer]:
+                - /url: /account/register
+            - listitem [ref=e449]:
+              - link "Giỏ hàng" [ref=e450] [cursor=pointer]:
+                - /url: /cart
+  - button "Open Next.js Dev Tools" [ref=e456] [cursor=pointer]:
+    - img [ref=e457]
+  - alert [ref=e460]

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import LanguageSwitcher from "@/components/language-switcher";
 import { useLanguage } from "@/components/language-provider";
 
 type ApiEnvelope<T> = {
@@ -89,7 +88,6 @@ export default function AdminLoginForm() {
           <button type="submit" disabled={isBusy}>
             {isBusy ? t("admin.login.verifying") : t("admin.login.submit")}
           </button>
-          <LanguageSwitcher />
         </form>
       </section>
     </div>

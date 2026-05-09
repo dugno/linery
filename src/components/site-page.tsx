@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import AccountPageContent from "@/components/account-page";
 import BodyClassBridge from "@/components/body-class-bridge";
+import CollectionTemplateClient from "@/components/collection-template-client";
+import ProductCard from "@/components/product-card";
 import SearchProducts from "@/components/search-products";
 import { getCartPreviewItem } from "@/lib/cart-preview";
 import { t, type Locale } from "@/lib/i18n";
@@ -14,7 +16,6 @@ import type {
   HomePage,
   NavItem,
   Product,
-  ProductCardData,
   SearchPage,
   SiteSettings,
   StaticContentPage,
@@ -84,54 +85,11 @@ function NavTree({ items }: { items: NavItem[] }) {
   );
 }
 
-function ProductCard({ product }: { product: ProductCardData }) {
-  return (
-    <div className="item product-col col-6 col-md-4 col-lg-15">
-      <div className="item_product_main">
-        <div className="product-thumbnail pos-relative">
-          <SiteLink
-            className="image_thumb pos-relative embed-responsive embed-responsive-1by1"
-            href={product.href}
-            title={product.title}
-          >
-            {product.imageUrl ? (
-              <img
-                loading="lazy"
-                className="img-fetured"
-                width={480}
-                height={480}
-                style={{ ["--image-scale" as never]: 1 }}
-                src={product.imageUrl}
-                alt={product.imageAlt}
-              />
-            ) : null}
-          </SiteLink>
-        </div>
-
-        <div className="product-info">
-          {product.vendor ? <span className="product-vendor">{product.vendor}</span> : null}
-          <span className="product-name">
-            <SiteLink className="link line-clamp-2" href={product.href} title={product.title}>
-              {product.title}
-            </SiteLink>
-          </span>
-          <div className="product-item-cta position-relative">
-            <div className="price-box">
-              <span className="price">{product.price}</span>
-              {product.comparePrice ? <span className="compare-price">{product.comparePrice}</span> : null}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettings }) {
   return (
     <>
       {settings.topBanner ? (
-        <div className="top-banner position-relative" style={{ background: "#d64d17" }}>
+        <div className="top-banner position-relative" style={{ background: "#9b942f" }}>
           <div className="container text-center px-0">
             <SiteLink className="position-relative d-block" href={settings.topBanner.href} style={{ color: "#ffffff" }}>
               {settings.topBanner.text}
@@ -324,48 +282,7 @@ function CollectionTemplate({ page }: { page: Collection }) {
             <div className="coll-head">
               <h1 className="title_page collection-title mb-0 pb-3">{page.title}</h1>
             </div>
-            <div className="row">
-              <div className="col-lg-3 col-md-12 col-sm-12">
-                <aside className="scroll card px-2 py-2 dqdt-sidebar sidebar left-content">
-                  <div className="wrap_background_aside asidecollection">
-                    <div className="filter-content aside-filter">
-                      {page.filters.slice(0, 4).map((filter) => (
-                        <aside key={filter.title} className="aside-item">
-                          <div className="aside-title">
-                            <h2 className="title-head margin-top-0">
-                              <span>{filter.title}</span>
-                            </h2>
-                          </div>
-                          <div className="aside-content filter-group">
-                            <ul>
-                              {filter.items.slice(0, 12).map((item) => (
-                                <li key={item} className="filter-item filter-item--check-box filter-item--green">
-                                  <span>
-                                    <label className="custom-checkbox">
-                                      <input type="checkbox" disabled />
-                                      <i className="fa" />
-                                      {item}
-                                    </label>
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </aside>
-                      ))}
-                    </div>
-                  </div>
-                </aside>
-              </div>
-
-              <div className="col-lg-9 col-md-12 col-sm-12">
-                <div className="row">
-                  {page.products.map((product) => (
-                    <ProductCard key={product.href} product={product} />
-                  ))}
-                </div>
-              </div>
-            </div>
+            <CollectionTemplateClient key={page.slug} page={page} />
           </div>
         </div>
       </section>

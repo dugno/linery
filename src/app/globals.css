@@ -13,7 +13,7 @@
 .tsq-admin-loading {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(214, 77, 23, 0.12), transparent 32rem),
+    radial-gradient(circle at top left, rgba(175, 197, 75, 0.16), transparent 32rem),
     linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
   color: #182230;
   font-family: "Be Vietnam Pro", Arial, sans-serif;
@@ -91,7 +91,7 @@
   flex: 0 0 40px;
   place-items: center;
   border-radius: 6px;
-  background: #d64d17;
+  background: #9b942f;
   color: #ffffff;
   font-weight: 800;
 }
@@ -180,14 +180,14 @@
 
 .tsq-admin-link:hover,
 .tsq-admin-link.active {
-  background: #fff4ef;
-  color: #b93815;
+  background: #f4f8de;
+  color: #6f8420;
 }
 
 .tsq-admin-link.active span {
-  border-color: #f6b99f;
+  border-color: #d4e184;
   background: #ffffff;
-  color: #b93815;
+  color: #6f8420;
 }
 
 .tsq-admin-workspace {
@@ -298,7 +298,7 @@
 .tsq-admin-eyebrow {
   display: block;
   margin-bottom: 5px;
-  color: #d64d17;
+  color: #9b942f;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0;
@@ -413,7 +413,7 @@
 }
 
 .tsq-language-switcher button.active {
-  background: #d64d17;
+  background: #9b942f;
   color: #ffffff;
 }
 
@@ -564,13 +564,13 @@
 
 .tsq-admin-avatar-link:hover,
 .tsq-admin-avatar-link.active {
-  border-color: #f6b99f;
-  background: #fff4ef;
+  border-color: #d4e184;
+  background: #f4f8de;
 }
 
 .tsq-admin-primary-button,
 .tsq-admin-login-form button {
-  background: #d64d17;
+  background: #9b942f;
   color: #ffffff;
 }
 
@@ -701,8 +701,8 @@
 .tsq-admin-table button.active,
 .tsq-admin-table button:hover,
 .tsq-admin-compact-row:hover {
-  border-color: #f6b99f;
-  background: #fff7f3;
+  border-color: #d4e184;
+  background: #f8faea;
 }
 
 .tsq-admin-table strong,
@@ -1053,7 +1053,7 @@
 }
 
 .tsq-admin-dropdown-menu label:hover {
-  background: #fff7f3;
+  background: #f8faea;
 }
 
 .tsq-admin-dropdown-menu input {
@@ -1083,7 +1083,7 @@
 }
 
 .tsq-admin-audit-table span {
-  color: #b93815;
+  color: #6f8420;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -1133,8 +1133,8 @@
 .tsq-admin-spinner {
   width: 18px;
   height: 18px;
-  border: 3px solid #fedf89;
-  border-top-color: #d64d17;
+  border: 3px solid #dfe8a8;
+  border-top-color: #9b942f;
   border-radius: 999px;
   animation: tsq-admin-spin 0.8s linear infinite;
 }
@@ -1280,29 +1280,29 @@
   --text-color: #282828;
   --body-background: #f8f8f8;
   --text-secondary-color: #666666;
-  --primary-color: #d64d17;
+  --primary-color: #9b942f;
   --secondary-color: #292929;
-  --price-color: #d64d17;
+  --price-color: #9b942f;
   --subheader-background: #e5677d;
   --subheader-color: #f9f9f6;
   --header-category-bg: #a50a06;
   --header-category-color: #fff3f4;
-  --label-background: #d64d17;
+  --label-background: #9b942f;
   --label-color: #ffffff;
-  --footer-bg: #d64d17;
+  --footer-bg: #9b942f;
   --footer-color: #ffffff;
   --show-loadmore: none !important;
   --order-loadmore: -1 !important;
   --sale-pop-color: #eed104;
-  --addtocart-bg: #d64d17;
+  --addtocart-bg: #9b942f;
   --addtocart-text-color: #ffffff;
-  --cta-color: #d64d17;
+  --cta-color: #9b942f;
   --section-coupon-bg: #ffffff;
   --coupon-title-color: #372720;
   --coupon-button-color: #372720;
   --col-menu: 4;
   --border-color: #f1f1f1;
-  --link-color: #d64d17;
+  --link-color: #9b942f;
   --link-hover-color: #2f5acf;
   --coupon-code-background: #ffffff;
   --coupon-lite-border: #372720;

@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -28,6 +29,10 @@ function loadEnvFile(filePath: string) {
 
     process.env[key] ||= value;
   }
+}
+
+function makePassword() {
+  return `Tsq@${crypto.randomBytes(12).toString("base64url")}1`;
 }
 
 const schemaDefinitions = {
@@ -164,7 +169,7 @@ async function main() {
   const firebaseAdminModule = await import("../src/server/firebase-admin");
   const firebaseAdmin = (firebaseAdminModule as typeof firebaseAdminModule & { default?: typeof firebaseAdminModule }).default || firebaseAdminModule;
   const { FieldValue } = firebaseAdmin;
-  const { db } = firebaseAdmin.getFirebaseAdmin();
+  const { auth, db } = firebaseAdmin.getFirebaseAdmin();
   const batch = db.batch();
 
   for (const [id, schema] of Object.entries(schemaDefinitions)) {
@@ -179,7 +184,89 @@ async function main() {
   }
 
   await batch.commit();
+
+  const email = process.env.ADMIN_SEED_EMAIL || "admin@linery.local";
+  const firstName = process.env.ADMIN_SEED_FIRST_NAME || "Admin";
+  const lastName = process.env.ADMIN_SEED_LAST_NAME || "Linery";
+  const displayName = process.env.ADMIN_SEED_DISPLAY_NAME || `${firstName} ${lastName}`.trim();
+  const requestedPassword = process.env.ADMIN_SEED_PASSWORD;
+  let generatedPassword: string | undefined;
+  let user;
+
+  try {
+    user = await auth.getUserByEmail(email);
+    await auth.updateUser(user.uid, {
+      disabled: false,
+      displayName,
+      emailVerified: true,
+      ...(requestedPassword ? { password: requestedPassword } : {}),
+    });
+  } catch (error) {
+    if (typeof error === "object" && error && "code" in error && error.code !== "auth/user-not-found") {
+      throw error;
+    }
+
+    generatedPassword = requestedPassword || makePassword();
+    user = await auth.createUser({
+      disabled: false,
+      displayName,
+      email,
+      emailVerified: true,
+      password: generatedPassword,
+    });
+  }
+
+  await db.collection("customers").doc(user.uid).set(
+    {
+      email,
+      extraPermissions: [],
+      firstName,
+      lastName,
+      revokedPermissions: [],
+      role: "admin",
+      status: "active",
+      uid: user.uid,
+      updatedAt: FieldValue.serverTimestamp(),
+    },
+    { merge: true },
+  );
+
+  const adminSnapshot = await db.collection("customers").doc(user.uid).get();
+
+  if (!adminSnapshot.data()?.createdAt) {
+    await adminSnapshot.ref.set({ createdAt: FieldValue.serverTimestamp() }, { merge: true });
+  }
+
+  const outputPath = path.join(process.cwd(), ".admin-role-accounts.local.json");
+  const password = requestedPassword || generatedPassword || null;
+
+  fs.writeFileSync(
+    outputPath,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        accounts: [
+          {
+            email,
+            password,
+            role: "admin",
+            uid: user.uid,
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`,
+    "utf8",
+  );
+
   console.log(`Imported ${Object.keys(schemaDefinitions).length} schema definitions into Firestore collection "schemas".`);
+  console.log(`Created or updated admin account ${email} (${user.uid}).`);
+  console.log(`Credentials written to ${outputPath}.`);
+
+  if (!password) {
+    console.log("Password was left unchanged because ADMIN_SEED_PASSWORD was not provided and the account already existed.");
+  }
 }
 
 main().catch((error) => {

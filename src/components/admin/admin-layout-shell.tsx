@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { AdminPermissionProvider, hasAdminPermission } from "@/components/admin/admin-permissions";
-import LanguageSwitcher from "@/components/language-switcher";
 import { useLanguage } from "@/components/language-provider";
 import type { TranslationKey } from "@/lib/i18n";
 
@@ -234,7 +233,6 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
             <Link href="/" className="tsq-admin-ghost-button">
               {t("admin.nav.store")}
             </Link>
-            <LanguageSwitcher />
             <Link href="/admin/profile" className={`tsq-admin-avatar-link ${pathname === "/admin/profile" ? "active" : ""}`} aria-label="Mở hồ sơ admin" title="Hồ sơ admin">
               <span>{avatarInitials}</span>
             </Link>

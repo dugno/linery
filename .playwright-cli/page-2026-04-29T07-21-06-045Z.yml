@@ -1,0 +1,351 @@
+- generic [active] [ref=e1]:
+  - link "Click here to browse our full collection" [ref=e4] [cursor=pointer]:
+    - /url: /collections/all
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "logo Tiệm sách Quýt" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "logo Tiệm sách Quýt" [ref=e9]
+      - navigation [ref=e12]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "Home" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e16]: Home
+          - listitem [ref=e17]:
+            - link "Fiction" [ref=e18] [cursor=pointer]:
+              - /url: /fiction
+              - generic [ref=e19]: Fiction
+              - img [ref=e21]
+          - listitem [ref=e22]:
+            - link "Non-fiction" [ref=e23] [cursor=pointer]:
+              - /url: /non-fiction
+              - generic [ref=e24]: Non-fiction
+              - img [ref=e26]
+          - listitem [ref=e27]:
+            - link "Best-sellers" [ref=e28] [cursor=pointer]:
+              - /url: /best-sellers
+              - generic [ref=e29]: Best-sellers
+          - listitem [ref=e30]:
+            - link "Quýt Tập Đọc" [ref=e31] [cursor=pointer]:
+              - /url: /lop-hoc
+              - generic [ref=e32]: Quýt Tập Đọc
+      - generic [ref=e34]:
+        - link "icon-search" [ref=e35] [cursor=pointer]:
+          - /url: /search
+          - img "icon-search" [ref=e36]
+        - link "icon-account" [ref=e37] [cursor=pointer]:
+          - /url: /account/login
+          - img "icon-account" [ref=e38]
+        - link "icon-cart 0" [ref=e40] [cursor=pointer]:
+          - /url: /cart
+          - img "icon-cart" [ref=e41]
+          - generic [ref=e42]: "0"
+  - list [ref=e45]:
+    - listitem [ref=e46]:
+      - link "Trang chủ" [ref=e47] [cursor=pointer]:
+        - /url: /
+    - listitem [ref=e48]:
+      - text: /
+      - strong [ref=e49]: Non-fiction
+  - generic [ref=e52]:
+    - heading "Non-fiction" [level=1] [ref=e54]
+    - generic [ref=e55]:
+      - complementary [ref=e57]:
+        - generic [ref=e59]:
+          - complementary [ref=e60]:
+            - heading "Author" [level=2] [ref=e62]
+            - list [ref=e64]:
+              - listitem [ref=e65]:
+                - generic [ref=e67]: Simon Blackburn
+              - listitem [ref=e68]:
+                - generic [ref=e70]: Michael Tanner
+              - listitem [ref=e71]:
+                - generic [ref=e73]: Thomas Flynn
+              - listitem [ref=e74]:
+                - generic [ref=e76]: Anthony Stevens
+              - listitem [ref=e77]:
+                - generic [ref=e79]: Christopher Butler
+              - listitem [ref=e80]:
+                - generic [ref=e82]: Simon Glendinning
+              - listitem [ref=e83]:
+                - generic [ref=e85]: W. E. B. Du Bois
+              - listitem [ref=e86]:
+                - generic [ref=e88]: Cambridge Companions to Culture series
+              - listitem [ref=e89]:
+                - generic [ref=e91]: Cambridge Companions to Religion series
+              - listitem [ref=e92]:
+                - generic [ref=e94]: Cambridge Companions to Literature series
+              - listitem [ref=e95]:
+                - generic [ref=e97]: Matt Zoller Seitz
+              - listitem [ref=e98]:
+                - generic [ref=e100]: Patrick Gardiner
+          - complementary [ref=e101]:
+            - heading "Condition" [level=2] [ref=e103]
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - generic [ref=e108]: Used - Like New
+              - listitem [ref=e109]:
+                - generic [ref=e111]: Used - Very Good with Library Marking
+              - listitem [ref=e112]:
+                - generic [ref=e114]: Used - Very Good
+              - listitem [ref=e115]:
+                - generic [ref=e117]: Used - Good
+              - listitem [ref=e118]:
+                - generic [ref=e120]: Used - Good (Heavy Marking Inside)
+              - listitem [ref=e121]:
+                - generic [ref=e123]: New
+          - complementary [ref=e124]:
+            - heading "Content" [level=2] [ref=e126]
+            - list [ref=e128]:
+              - listitem [ref=e129]:
+                - generic [ref=e131]: Existential
+              - listitem [ref=e132]:
+                - generic [ref=e134]: Introspective
+              - listitem [ref=e135]:
+                - generic [ref=e137]: Coming-Of-Age
+              - listitem [ref=e138]:
+                - generic [ref=e140]: Memory
+              - listitem [ref=e141]:
+                - generic [ref=e143]: Identity
+              - listitem [ref=e144]:
+                - generic [ref=e146]: Psychological
+              - listitem [ref=e147]:
+                - generic [ref=e149]: Nostalgic
+              - listitem [ref=e150]:
+                - generic [ref=e152]: Reflective
+              - listitem [ref=e153]:
+                - generic [ref=e155]: Poignant
+              - listitem [ref=e156]:
+                - generic [ref=e158]: Philosophical
+              - listitem [ref=e159]:
+                - generic [ref=e161]: Historical Fiction
+              - listitem [ref=e162]:
+                - generic [ref=e164]: Classic
+      - generic [ref=e166]:
+        - generic [ref=e168]:
+          - 'link "Power, Politics, and Culture: Interviews with Edward W. Said" [ref=e170] [cursor=pointer]':
+            - /url: /power-politics-and-culture-interviews-with-edward-w-said
+            - 'img "Power, Politics, and Culture: Interviews with Edward W. Said" [ref=e171]'
+          - generic [ref=e172]:
+            - generic [ref=e173]: Edward W. Said
+            - 'link "Power, Politics, and Culture: Interviews with Edward W. Said" [ref=e175] [cursor=pointer]':
+              - /url: /power-politics-and-culture-interviews-with-edward-w-said
+            - generic [ref=e178]: 460.000₫
+        - generic [ref=e180]:
+          - 'link "Ethics: A Very Short Introduction" [ref=e182] [cursor=pointer]':
+            - /url: /ethics-a-very-short-introduction
+            - 'img "Ethics: A Very Short Introduction" [ref=e183]'
+          - generic [ref=e184]:
+            - generic [ref=e185]: Simon Blackburn
+            - 'link "Ethics: A Very Short Introduction" [ref=e187] [cursor=pointer]':
+              - /url: /ethics-a-very-short-introduction
+            - generic [ref=e190]: 280.000₫
+        - generic [ref=e192]:
+          - 'link "Kierkegaard: A Very Short Introduction" [ref=e194] [cursor=pointer]':
+            - /url: /kierkegaard-a-very-short-introduction-1
+            - 'img "Kierkegaard: A Very Short Introduction" [ref=e195]'
+          - generic [ref=e196]:
+            - generic [ref=e197]: Patrick Gardiner
+            - 'link "Kierkegaard: A Very Short Introduction" [ref=e199] [cursor=pointer]':
+              - /url: /kierkegaard-a-very-short-introduction-1
+            - generic [ref=e202]: 280.000₫
+        - generic [ref=e204]:
+          - 'link "Nietzsche: A Very Short Introduction" [ref=e206] [cursor=pointer]':
+            - /url: /nietzsche-a-very-short-introduction
+            - 'img "Nietzsche: A Very Short Introduction" [ref=e207]'
+          - generic [ref=e208]:
+            - generic [ref=e209]: Michael Tanner
+            - 'link "Nietzsche: A Very Short Introduction" [ref=e211] [cursor=pointer]':
+              - /url: /nietzsche-a-very-short-introduction
+            - generic [ref=e214]: 280.000₫
+        - generic [ref=e216]:
+          - 'link "Existentialism: A Very Short Introduction" [ref=e218] [cursor=pointer]':
+            - /url: /existentialism-a-very-short-introduction
+            - 'img "Existentialism: A Very Short Introduction" [ref=e219]'
+          - generic [ref=e220]:
+            - generic [ref=e221]: Thomas Flynn
+            - 'link "Existentialism: A Very Short Introduction" [ref=e223] [cursor=pointer]':
+              - /url: /existentialism-a-very-short-introduction
+            - generic [ref=e226]: 280.000₫
+        - generic [ref=e228]:
+          - 'link "Jung: A Very Short Introduction" [ref=e230] [cursor=pointer]':
+            - /url: /jung-a-very-short-introduction
+            - 'img "Jung: A Very Short Introduction" [ref=e231]'
+          - generic [ref=e232]:
+            - generic [ref=e233]: Anthony Stevens
+            - 'link "Jung: A Very Short Introduction" [ref=e235] [cursor=pointer]':
+              - /url: /jung-a-very-short-introduction
+            - generic [ref=e238]: 280.000₫
+        - generic [ref=e240]:
+          - 'link "Modernism: A Very Short Introduction" [ref=e242] [cursor=pointer]':
+            - /url: /modernism-a-very-short-introduction
+            - 'img "Modernism: A Very Short Introduction" [ref=e243]'
+          - generic [ref=e244]:
+            - generic [ref=e245]: Christopher Butler
+            - 'link "Modernism: A Very Short Introduction" [ref=e247] [cursor=pointer]':
+              - /url: /modernism-a-very-short-introduction
+            - generic [ref=e250]: 280.000₫
+        - generic [ref=e252]:
+          - 'link "Postmodernism: A Very Short Introduction" [ref=e254] [cursor=pointer]':
+            - /url: /postmodernism-a-very-short-introduction
+            - 'img "Postmodernism: A Very Short Introduction" [ref=e255]'
+          - generic [ref=e256]:
+            - generic [ref=e257]: Christopher Butler
+            - 'link "Postmodernism: A Very Short Introduction" [ref=e259] [cursor=pointer]':
+              - /url: /postmodernism-a-very-short-introduction
+            - generic [ref=e262]: 280.000₫
+        - generic [ref=e264]:
+          - 'link "Derrida: A Very Short Introduction" [ref=e266] [cursor=pointer]':
+            - /url: /derrida-a-very-short-introduction
+            - 'img "Derrida: A Very Short Introduction" [ref=e267]'
+          - generic [ref=e268]:
+            - generic [ref=e269]: Simon Glendinning
+            - 'link "Derrida: A Very Short Introduction" [ref=e271] [cursor=pointer]':
+              - /url: /derrida-a-very-short-introduction
+            - generic [ref=e274]: 280.000₫
+        - generic [ref=e276]:
+          - link "The Souls of Black Folk" [ref=e278] [cursor=pointer]:
+            - /url: /the-souls-of-black-folk
+            - img "The Souls of Black Folk" [ref=e279]
+          - generic [ref=e280]:
+            - generic [ref=e281]: W. E. B. Du Bois
+            - link "The Souls of Black Folk" [ref=e283] [cursor=pointer]:
+              - /url: /the-souls-of-black-folk
+            - generic [ref=e286]: 310.000₫
+        - generic [ref=e288]:
+          - link "The Cambridge Companion to Modern Latin American Culture" [ref=e290] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-modern-latin-american-culture
+            - img "The Cambridge Companion to Modern Latin American Culture" [ref=e291]
+          - generic [ref=e292]:
+            - generic [ref=e293]: Cambridge Companions to Culture series
+            - link "The Cambridge Companion to Modern Latin American Culture" [ref=e295] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-modern-latin-american-culture
+            - generic [ref=e298]: 349.000₫
+        - generic [ref=e300]:
+          - link "The Cambridge Companion to T. S. Eliot" [ref=e302] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-t-s-eliot
+            - img "The Cambridge Companion to T. S. Eliot" [ref=e303]
+          - generic [ref=e304]:
+            - generic [ref=e305]: Cambridge Companions to Literature series
+            - link "The Cambridge Companion to T. S. Eliot" [ref=e307] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-t-s-eliot
+            - generic [ref=e310]: 350.000₫
+        - generic [ref=e312]:
+          - link "The Cambridge Companion to Milton" [ref=e314] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-milton
+            - img "The Cambridge Companion to Milton" [ref=e315]
+          - generic [ref=e316]:
+            - generic [ref=e317]: Cambridge Companions to Literature series
+            - link "The Cambridge Companion to Milton" [ref=e319] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-milton
+            - generic [ref=e322]: 327.000₫
+        - generic [ref=e324]:
+          - link "The Cambridge Companion to Feminist Theology" [ref=e326] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-feminist-theology
+            - img "The Cambridge Companion to Feminist Theology" [ref=e327]
+          - generic [ref=e328]:
+            - generic [ref=e329]: Cambridge Companions to Religion series
+            - link "The Cambridge Companion to Feminist Theology" [ref=e331] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-feminist-theology
+            - generic [ref=e334]: 399.000₫
+        - generic [ref=e336]:
+          - link "The Cambridge Companion to Oscar Wilde" [ref=e338] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-oscar-wilde
+            - img "The Cambridge Companion to Oscar Wilde" [ref=e339]
+          - generic [ref=e340]:
+            - generic [ref=e341]: Cambridge Companions to Literature series
+            - link "The Cambridge Companion to Oscar Wilde" [ref=e343] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-oscar-wilde
+            - generic [ref=e346]: 329.000₫
+        - generic [ref=e348]:
+          - link "The Cambridge Companion to Virginia Woolf" [ref=e350] [cursor=pointer]:
+            - /url: /the-cambridge-companion-to-virginia-woolf
+            - img "The Cambridge Companion to Virginia Woolf" [ref=e351]
+          - generic [ref=e352]:
+            - generic [ref=e353]: Cambridge Companions to Literature series
+            - link "The Cambridge Companion to Virginia Woolf" [ref=e355] [cursor=pointer]:
+              - /url: /the-cambridge-companion-to-virginia-woolf
+            - generic [ref=e358]: 355.000₫
+        - generic [ref=e360]:
+          - 'link "S/Z: An Essay" [ref=e362] [cursor=pointer]':
+            - /url: /s-z-an-essay
+            - 'img "S/Z: An Essay" [ref=e363]'
+          - generic [ref=e364]:
+            - generic [ref=e365]: Roland Barthes
+            - 'link "S/Z: An Essay" [ref=e367] [cursor=pointer]':
+              - /url: /s-z-an-essay
+            - generic [ref=e370]: 275.000₫
+        - generic [ref=e372]:
+          - link "The Rustle of Language" [ref=e374] [cursor=pointer]:
+            - /url: /the-rustle-of-language
+            - img "The Rustle of Language" [ref=e375]
+          - generic [ref=e376]:
+            - generic [ref=e377]: Roland Barthes
+            - link "The Rustle of Language" [ref=e379] [cursor=pointer]:
+              - /url: /the-rustle-of-language
+            - generic [ref=e382]: 419.000₫
+        - generic [ref=e384]:
+          - 'link "The Wes Anderson Collection: The Grand Budapest Hotel (hardcover)" [ref=e386] [cursor=pointer]':
+            - /url: /the-wes-anderson-collection-the-grand-budapest-hotel-hardcover
+            - 'img "The Wes Anderson Collection: The Grand Budapest Hotel (hardcover)" [ref=e387]'
+          - generic [ref=e388]:
+            - generic [ref=e389]: Matt Zoller Seitz
+            - 'link "The Wes Anderson Collection: The Grand Budapest Hotel (hardcover)" [ref=e391] [cursor=pointer]':
+              - /url: /the-wes-anderson-collection-the-grand-budapest-hotel-hardcover
+            - generic [ref=e394]: 900.000₫
+        - generic [ref=e396]:
+          - link "The Wes Anderson Collection (hardcover)" [ref=e398] [cursor=pointer]:
+            - /url: /the-wes-anderson-collection
+            - img "The Wes Anderson Collection (hardcover)" [ref=e399]
+          - generic [ref=e400]:
+            - generic [ref=e401]: Matt Zoller Seitz
+            - link "The Wes Anderson Collection (hardcover)" [ref=e403] [cursor=pointer]:
+              - /url: /the-wes-anderson-collection
+            - generic [ref=e405]:
+              - generic [ref=e406]: 950.000₫
+              - generic [ref=e407]: 1.300.000₫
+  - contentinfo [ref=e408]:
+    - generic [ref=e411]:
+      - generic [ref=e413]:
+        - link "logo Tiệm sách Quýt":
+          - /url: /
+          - img "logo Tiệm sách Quýt"
+        - generic [ref=e414]: Tiệm sách Quýt
+      - generic [ref=e416]:
+        - generic [ref=e418]:
+          - heading "MUA HÀNG" [level=3] [ref=e419]
+          - list [ref=e420]:
+            - listitem [ref=e421]:
+              - link "Home" [ref=e422] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e423]:
+              - link "Fiction" [ref=e424] [cursor=pointer]:
+                - /url: /fiction
+            - listitem [ref=e425]:
+              - link "Non-fiction" [ref=e426] [cursor=pointer]:
+                - /url: /non-fiction
+            - listitem [ref=e427]:
+              - link "Best-sellers" [ref=e428] [cursor=pointer]:
+                - /url: /best-sellers
+            - listitem [ref=e429]:
+              - link "Quýt Tập Đọc" [ref=e430] [cursor=pointer]:
+                - /url: /lop-hoc
+        - generic [ref=e432]:
+          - heading "SHORTCUTS" [level=3] [ref=e433]
+          - list [ref=e434]:
+            - listitem [ref=e435]:
+              - link "Tìm kiếm" [ref=e436] [cursor=pointer]:
+                - /url: /search
+            - listitem [ref=e437]:
+              - link "Đăng nhập" [ref=e438] [cursor=pointer]:
+                - /url: /account/login
+            - listitem [ref=e439]:
+              - link "Đăng ký" [ref=e440] [cursor=pointer]:
+                - /url: /account/register
+            - listitem [ref=e441]:
+              - link "Giỏ hàng" [ref=e442] [cursor=pointer]:
+                - /url: /cart
+  - button "Open Next.js Dev Tools" [ref=e448] [cursor=pointer]:
+    - img [ref=e449]
+  - alert [ref=e452]

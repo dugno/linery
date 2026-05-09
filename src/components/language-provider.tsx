@@ -12,11 +12,25 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children, initialLocale }: { children: React.ReactNode; initialLocale: Locale }) {
+export function LanguageProvider({
+  children,
+  cookieName = localeCookieName,
+  initialLocale,
+}: {
+  children: React.ReactNode;
+  cookieName?: string | null;
+  initialLocale: Locale;
+}) {
   const [locale, setLocaleState] = useState<Locale>(normalizeLocale(initialLocale));
 
   useEffect(() => {
+    const previousLang = document.documentElement.lang;
+
     document.documentElement.lang = locale;
+
+    return () => {
+      document.documentElement.lang = previousLang;
+    };
   }, [locale]);
 
   const value = useMemo<LanguageContextValue>(
@@ -25,7 +39,10 @@ export function LanguageProvider({ children, initialLocale }: { children: React.
       setLocale(nextLocale) {
         const normalizedLocale = normalizeLocale(nextLocale);
 
-        document.cookie = `${localeCookieName}=${normalizedLocale}; path=/; max-age=31536000; samesite=lax`;
+        if (cookieName) {
+          document.cookie = `${cookieName}=${normalizedLocale}; path=/; max-age=31536000; samesite=lax`;
+        }
+
         document.documentElement.lang = normalizedLocale;
         setLocaleState(normalizedLocale);
       },
@@ -33,7 +50,7 @@ export function LanguageProvider({ children, initialLocale }: { children: React.
         return t(locale, key);
       },
     }),
-    [locale],
+    [cookieName, locale],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

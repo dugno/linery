@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 
 import { hasAdminPermission, useAdminPermissions } from "@/components/admin/admin-permissions";
 import { useLanguage } from "@/components/language-provider";
-import { translateLiteral } from "@/lib/i18n";
+import { normalizeLocale, translateLiteral } from "@/lib/i18n";
 
 type AdminShellProps = {
   createTemplate?: Record<string, unknown>;
@@ -36,6 +36,11 @@ type CollectionOption = {
   id?: string;
   slug?: string;
   title?: string;
+};
+
+type SelectOption = {
+  label: string;
+  value: string;
 };
 
 type ResourcePermissions = {
@@ -189,7 +194,7 @@ async function requestJson<T>(url: string, init?: RequestInit) {
 }
 
 export default function AdminShell({ createTemplate, detailPath, endpoint, idField, mode = "list", title }: AdminShellProps) {
-  const { locale, t } = useLanguage();
+  const { locale, setLocale, t } = useLanguage();
   const { permissions, setShowAdvancedJsonEditor, showAdvancedJsonEditor = true } = useAdminPermissions();
   const localizedTitle = translateLiteral(locale, title);
   const canReadCollections = hasAdminPermission(permissions, "collections.read");
@@ -498,16 +503,20 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     );
   }
 
-  function renderSelectField(label: string, path: string, options: string[]) {
-    const value = String(getPathValue(editorObject, path) || "");
+  function renderSelectField(label: string, path: string, options: Array<string | SelectOption>, defaultValue = "") {
+    const normalizedOptions = options.map((option) => (typeof option === "string" ? { label: option, value: option } : option));
+    const rawValue = getPathValue(editorObject, path);
+    const fallbackValue = defaultValue || normalizedOptions[0]?.value || "";
+    const currentValue = typeof rawValue === "string" ? rawValue : fallbackValue;
+    const value = normalizedOptions.some((option) => option.value === currentValue) ? currentValue : fallbackValue;
 
     return (
       <label>
         {label}
         <select value={value} onChange={(event) => updateEditor(path, event.target.value)}>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+          {normalizedOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
             </option>
           ))}
         </select>
@@ -670,6 +679,10 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
         {renderMediaPicker("logo.src")}
         {renderTextField("Email liên hệ", "contact.email")}
         {renderTextField("Số điện thoại liên hệ", "contact.phone")}
+        {renderSelectField("Ngôn ngữ giao diện admin", "adminUi.locale", [
+          { label: "Tiếng Việt", value: "vi" },
+          { label: "English", value: "en" },
+        ], "vi")}
         {renderBooleanField("Hiện trình chỉnh sửa JSON nâng cao", "adminUi.showAdvancedJsonEditor", true)}
       </div>
     );
@@ -691,8 +704,14 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     if (endpoint.includes("site-settings")) {
       const savedAdminUi = saved.adminUi;
 
-      if (savedAdminUi && typeof savedAdminUi === "object" && "showAdvancedJsonEditor" in savedAdminUi && typeof savedAdminUi.showAdvancedJsonEditor === "boolean") {
-        setShowAdvancedJsonEditor?.(savedAdminUi.showAdvancedJsonEditor);
+      if (savedAdminUi && typeof savedAdminUi === "object") {
+        if ("locale" in savedAdminUi && typeof savedAdminUi.locale === "string") {
+          setLocale(normalizeLocale(savedAdminUi.locale));
+        }
+
+        if ("showAdvancedJsonEditor" in savedAdminUi && typeof savedAdminUi.showAdvancedJsonEditor === "boolean") {
+          setShowAdvancedJsonEditor?.(savedAdminUi.showAdvancedJsonEditor);
+        }
       }
     }
 
