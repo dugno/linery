@@ -27,10 +27,6 @@ function isInternalHref(href: string) {
   return href.startsWith("/");
 }
 
-function normalizeBrandLabel(value: string) {
-  return value.trim() === "Quýt tập đọc" ? "Đọc Cùng Linery" : value;
-}
-
 function SiteLink({
   children,
   href,
@@ -59,8 +55,8 @@ function NavTree({ items }: { items: NavItem[] }) {
     <ul className="navigation navigation-horizontal list-group list-group-flush scroll">
       {items.map((item) => (
         <li key={`${item.href}-${item.title}`} className="menu-item list-group-item">
-          <SiteLink href={item.href} className="menu-item__link" title={normalizeBrandLabel(item.title)}>
-            <span>{normalizeBrandLabel(item.title)}</span>
+          <SiteLink href={item.href} className="menu-item__link" title={item.title}>
+            <span>{item.title}</span>
             {item.children.length ? (
               <i className="float-right" data-toggle-submenu>
                 <svg className="icon">
@@ -75,8 +71,8 @@ function NavTree({ items }: { items: NavItem[] }) {
               <ul className="submenu__list container">
                 {item.children.map((child) => (
                   <li key={`${child.href}-${child.title}`} className="submenu__item submenu__item--main">
-                    <SiteLink className="link" href={child.href} title={normalizeBrandLabel(child.title)}>
-                      {normalizeBrandLabel(child.title)}
+                    <SiteLink className="link" href={child.href} title={child.title}>
+                      {child.title}
                     </SiteLink>
                   </li>
                 ))}
@@ -96,7 +92,7 @@ function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettin
         <div className="top-banner position-relative" style={{ background: "#9b942f" }}>
           <div className="container text-center px-0">
             <SiteLink className="position-relative d-block" href={settings.topBanner.href} style={{ color: "#ffffff" }}>
-              {normalizeBrandLabel(settings.topBanner.text)}
+              {settings.topBanner.text}
             </SiteLink>
           </div>
         </div>
@@ -194,8 +190,8 @@ function SiteFooter({ locale, settings }: { locale: Locale; settings: SiteSettin
                       <ul className="list-menu toggle-mn">
                         {group.links.map((link) => (
                           <li key={`${link.href}-${link.title}`} className="li_menu">
-                            <SiteLink className="link" href={link.href} title={normalizeBrandLabel(link.title)}>
-                              {normalizeBrandLabel(link.title)}
+                            <SiteLink className="link" href={link.href} title={link.title}>
+                              {link.title}
                             </SiteLink>
                           </li>
                         ))}
