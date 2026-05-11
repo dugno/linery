@@ -109,7 +109,7 @@ function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettin
           <div id="logo">
             <SiteLink href="/" className="logo-wrapper">
               {settings.logo?.src ? (
-                <img className="img-fluid" src={settings.logo.src} alt={settings.logo.alt || "logo Linery"} width={200} height={100} />
+                <img className="img-fluid" src={settings.logo.src} alt={settings.logo.alt || "logo Linery book"} width={200} height={100} />
               ) : null}
             </SiteLink>
           </div>
@@ -153,9 +153,9 @@ function SiteFooter({ locale, settings }: { locale: Locale; settings: SiteSettin
             <div className="col-xl-3">
               <div className="footer-block footer-click">
                 <SiteLink href="/" className="logo-wrapper mb-3 d-block">
-                  {settings.footerLogo?.src ? <img loading="lazy" src={settings.footerLogo.src} alt={settings.footerLogo.alt || "logo Linery"} width={80} height={80} /> : null}
+                  {settings.footerLogo?.src ? <img loading="lazy" src={settings.footerLogo.src} alt={settings.footerLogo.alt || "logo Linery book"} width={80} height={80} /> : null}
                 </SiteLink>
-                <div className="text-base font-semibold mb-2 h4">Linery</div>
+                <div className="text-base font-semibold mb-2 h4">Linery book</div>
                 {settings.contact.address ? (
                   <div className="single-contact">
                     <i className="fa fa-map-marker-alt" />

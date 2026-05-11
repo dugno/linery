@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { LanguageProvider } from "@/components/language-provider";
-import { getSiteAssets } from "@/lib/storefront";
+import { getSiteAssets, getSiteSettings } from "@/lib/storefront";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Linery Rebuild",
+  title: "Linery book",
   description: "Next.js rebuild for a public storefront",
 };
 
@@ -14,11 +14,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteAssets = await getSiteAssets();
+  const [siteAssets, siteSettings] = await Promise.all([getSiteAssets(), getSiteSettings()]);
 
   return (
     <html lang="vi">
       <head>
+        <link rel="icon" href={siteSettings.logo?.src || "/favicon.ico"} />
         {siteAssets.stylesheetUrls.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}

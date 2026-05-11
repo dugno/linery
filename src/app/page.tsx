@@ -7,14 +7,14 @@ import { getSiteSettings, getStorefrontPage } from "@/lib/storefront";
 export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getStorefrontPage("/");
+  const [page, settings] = await Promise.all([getStorefrontPage("/"), getSiteSettings()]);
 
   if (!page) {
     notFound();
   }
 
   return {
-    title: page.seo.title,
+    title: settings.siteName || "Linery book",
     description: page.seo.description,
     alternates: {
       canonical: page.seo.canonical,

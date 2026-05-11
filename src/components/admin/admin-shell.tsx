@@ -673,6 +673,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
 
     return (
       <div className="tsq-admin-quick-form">
+        {renderTextField("Tên thương hiệu", "siteName")}
         {renderTextField("Nội dung banner đầu trang", "topBanner.text")}
         {renderTextField("Đường dẫn banner đầu trang", "topBanner.href")}
         {renderTextField("URL logo", "logo.src")}

@@ -67,7 +67,7 @@ export default function AdminLoginForm() {
         <div className="tsq-admin-login-brand">
           <span className="tsq-admin-brand-mark">L</span>
           <div>
-            <strong>Linery</strong>
+            <strong>Linery book</strong>
             <span>{t("admin.brand.subtitle")}</span>
           </div>
         </div>

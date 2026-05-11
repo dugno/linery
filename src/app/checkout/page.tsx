@@ -9,7 +9,7 @@ import { localeCookieName, normalizeLocale, t } from "@/lib/i18n";
 import { getSiteSettings } from "@/lib/storefront";
 
 export const metadata: Metadata = {
-  title: "Linery - Thanh toán đơn hàng",
+  title: "Linery book - Thanh toán đơn hàng",
 };
 
 function Field({
@@ -58,7 +58,7 @@ export default async function CheckoutPage() {
         <main className="main tsq-checkout-main">
           <header className="main__header tsq-checkout-header">
             <Link href="/">
-              {settings.logo?.src ? <Image src={settings.logo.src} alt={settings.logo.alt || "Linery"} width={88} height={44} /> : null}
+              {settings.logo?.src ? <Image src={settings.logo.src} alt={settings.logo.alt || "Linery book"} width={88} height={44} /> : null}
             </Link>
           </header>
           <div className="main__content tsq-checkout-content">

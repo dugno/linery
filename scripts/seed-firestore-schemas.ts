@@ -145,6 +145,7 @@ const schemaDefinitions = {
       footerGroups: "FooterGroup[]",
       logo: "MediaAsset?",
       menu: "NavItem[]",
+      siteName: "string?",
       stylesheets: "string[]",
       topBanner: "{ href: string; text: string }?",
     },

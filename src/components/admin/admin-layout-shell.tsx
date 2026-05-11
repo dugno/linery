@@ -190,7 +190,7 @@ export default function AdminLayoutShell({ children }: { children: React.ReactNo
         <Link href="/admin" className="tsq-admin-brand">
           <span className="tsq-admin-brand-mark">L</span>
           <span>
-            <strong>Linery</strong>
+            <strong>Linery book</strong>
             <small>{t("admin.brand.subtitle")}</small>
           </span>
         </Link>

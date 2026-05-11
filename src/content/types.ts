@@ -39,6 +39,7 @@ export type SiteSettings = {
   footerLogo?: MediaAsset;
   logo?: MediaAsset;
   menu: NavItem[];
+  siteName?: string;
   searchIcon?: MediaAsset;
   stylesheets: string[];
   topBanner?: {
