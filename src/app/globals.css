@@ -1826,6 +1826,13 @@ img {
   padding: 13px 24px;
 }
 
+#logo,
+.mid-footer .logo-wrapper,
+.mid-footer .h4,
+.tsq-checkout-header a {
+  display: none !important;
+}
+
 @media (max-width: 991px) {
   .tsq-cart-layout,
   .tsq-checkout-page,
