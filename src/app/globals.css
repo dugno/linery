@@ -1826,11 +1826,60 @@ img {
   padding: 13px 24px;
 }
 
-#logo,
-.mid-footer .logo-wrapper,
-.mid-footer .h4,
-.tsq-checkout-header a {
-  display: none !important;
+#logo {
+  display: flex;
+  align-items: center;
+}
+
+.tsq-logo-placeholder {
+  width: 200px;
+  height: 80px;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.tsq-logo-placeholder--footer {
+  width: 80px;
+  height: 80px;
+}
+
+.tsq-logo-placeholder--checkout {
+  width: 88px;
+  height: 44px;
+}
+
+.tsq-brand-placeholder {
+  display: block;
+  width: 140px;
+  height: 28px;
+}
+
+@media (max-width: 991px) {
+  .ega-header .navigation--horizontal {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: #fff;
+    padding: 12px 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .ega-header .navigation--horizontal .navigation {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ega-header .navigation--horizontal .list-group-item > a {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .ega-header .header-wrap #logo {
+    width: 200px;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 991px) {

@@ -6,7 +6,6 @@ import Link from "next/link";
 import BodyClassBridge from "@/components/body-class-bridge";
 import { getCartPreviewItem } from "@/lib/cart-preview";
 import { localeCookieName, normalizeLocale, t } from "@/lib/i18n";
-import { getSiteSettings } from "@/lib/storefront";
 
 export const metadata: Metadata = {
   title: "Linery book - Thanh toán đơn hàng",
@@ -48,7 +47,6 @@ function SelectField({ label, value, disabled = false }: { disabled?: boolean; l
 
 export default async function CheckoutPage() {
   const item = await getCartPreviewItem();
-  const settings = await getSiteSettings();
   const locale = normalizeLocale((await cookies()).get(localeCookieName)?.value);
 
   return (
@@ -57,9 +55,7 @@ export default async function CheckoutPage() {
       <form id="checkoutForm" className="tsq-checkout-page" action="/checkout" method="post">
         <main className="main tsq-checkout-main">
           <header className="main__header tsq-checkout-header">
-            <Link href="/">
-              {settings.logo?.src ? <Image src={settings.logo.src} alt={settings.logo.alt || "Linery book"} width={88} height={44} /> : null}
-            </Link>
+            <div className="tsq-logo-placeholder tsq-logo-placeholder--checkout" aria-hidden="true" />
           </header>
           <div className="main__content tsq-checkout-content">
             <section className="section tsq-checkout-info">

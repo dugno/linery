@@ -5,6 +5,7 @@ import BodyClassBridge from "@/components/body-class-bridge";
 import CollectionTemplateClient from "@/components/collection-template-client";
 import ProductCard from "@/components/product-card";
 import SearchProducts from "@/components/search-products";
+import SiteHeaderClient from "@/components/site-header-client";
 import { getCartPreviewItem } from "@/lib/cart-preview";
 import { t, type Locale } from "@/lib/i18n";
 import type {
@@ -14,7 +15,6 @@ import type {
   CartPage,
   Collection,
   HomePage,
-  NavItem,
   Product,
   SearchPage,
   SiteSettings,
@@ -50,98 +50,8 @@ function SiteLink({
   );
 }
 
-function NavTree({ items }: { items: NavItem[] }) {
-  return (
-    <ul className="navigation navigation-horizontal list-group list-group-flush scroll">
-      {items.map((item) => (
-        <li key={`${item.href}-${item.title}`} className="menu-item list-group-item">
-          <SiteLink href={item.href} className="menu-item__link" title={item.title}>
-            <span>{item.title}</span>
-            {item.children.length ? (
-              <i className="float-right" data-toggle-submenu>
-                <svg className="icon">
-                  <use xlinkHref="#icon-arrow" />
-                </svg>
-              </i>
-            ) : null}
-          </SiteLink>
-
-          {item.children.length ? (
-            <div className="submenu scroll default">
-              <ul className="submenu__list container">
-                {item.children.map((child) => (
-                  <li key={`${child.href}-${child.title}`} className="submenu__item submenu__item--main">
-                    <SiteLink className="link" href={child.href} title={child.title}>
-                      {child.title}
-                    </SiteLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 function SiteHeader({ locale, settings }: { locale: Locale; settings: SiteSettings }) {
-  return (
-    <>
-      {settings.topBanner ? (
-        <div className="top-banner position-relative" style={{ background: "#9b942f" }}>
-          <div className="container text-center px-0">
-            <SiteLink className="position-relative d-block" href={settings.topBanner.href} style={{ color: "#ffffff" }}>
-              {settings.topBanner.text}
-            </SiteLink>
-          </div>
-        </div>
-      ) : null}
-
-      <header className="ega-header ega-pos--relative">
-        <div className="header-wrap container">
-          <div className="toggle-nav btn menu-bar mr-4 ml-0 p-0 d-lg-none d-flex text-white">
-            <span className="bar" />
-            <span className="bar" />
-            <span className="bar" />
-          </div>
-
-          <div id="logo">
-            <SiteLink href="/" className="logo-wrapper">
-              {settings.logo?.src ? (
-                <img className="img-fluid" src={settings.logo.src} alt={settings.logo.alt || "logo Linery book"} width={200} height={100} />
-              ) : null}
-            </SiteLink>
-          </div>
-
-          <div className="navigation--horizontal d-lg-flex align-items-center d-none">
-            <div className="navigation-wrapper navigation-horizontal-wrapper">
-              <nav>
-                <NavTree items={settings.menu} />
-              </nav>
-            </div>
-          </div>
-
-          <div className="header-right ega-d--flex">
-            <div className="icon-action header-right__icons" style={{ ["--header-grid-template" as never]: "repeat(3, 1fr)" }}>
-              <SiteLink className="header-icon icon-action__search icon-action__search--desktop" href="/search">
-                {settings.searchIcon?.src ? <img src={settings.searchIcon.src} alt={settings.searchIcon.alt || "icon-search"} /> : t(locale, "common.search")}
-              </SiteLink>
-              <SiteLink id="icon-account" className="ega-color--inherit header-icon icon-account d-none d-lg-block" href="/account/login">
-                {settings.accountIcon?.src ? <img src={settings.accountIcon.src} alt={settings.accountIcon.alt || "icon-account"} /> : "Account"}
-              </SiteLink>
-              <div className="mini-cart text-xs-center">
-                <SiteLink className="header-icon cart-count ega-color--inherit" href="/cart" title={t(locale, "site.cart")}>
-                  {settings.cartIcon?.src ? <img src={settings.cartIcon.src} alt={settings.cartIcon.alt || "icon-cart"} /> : t(locale, "site.cart")}
-                  <span className="count_item count_item_pr">0</span>
-                </SiteLink>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-    </>
-  );
+  return <SiteHeaderClient locale={locale} settings={settings} />;
 }
 
 function SiteFooter({ locale, settings }: { locale: Locale; settings: SiteSettings }) {
@@ -152,10 +62,12 @@ function SiteFooter({ locale, settings }: { locale: Locale; settings: SiteSettin
           <div className="row">
             <div className="col-xl-3">
               <div className="footer-block footer-click">
-                <SiteLink href="/" className="logo-wrapper mb-3 d-block">
-                  {settings.footerLogo?.src ? <img loading="lazy" src={settings.footerLogo.src} alt={settings.footerLogo.alt || "logo Linery book"} width={80} height={80} /> : null}
-                </SiteLink>
-                <div className="text-base font-semibold mb-2 h4">Linery book</div>
+                <div className="logo-wrapper mb-3 d-block" aria-hidden="true">
+                  <div className="tsq-logo-placeholder tsq-logo-placeholder--footer" />
+                </div>
+                <div className="text-base font-semibold mb-2 h4" aria-hidden="true">
+                  <span className="tsq-brand-placeholder" />
+                </div>
                 {settings.contact.address ? (
                   <div className="single-contact">
                     <i className="fa fa-map-marker-alt" />
