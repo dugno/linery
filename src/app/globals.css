@@ -1829,10 +1829,12 @@ img {
 #logo {
   display: flex;
   align-items: center;
+  width: 250px;
+  min-width: 250px;
 }
 
 .tsq-logo-placeholder {
-  width: 200px;
+  width: 248px;
   height: 80px;
   border-radius: 8px;
   background: transparent;
@@ -1877,7 +1879,8 @@ img {
   }
 
   .ega-header .header-wrap #logo {
-    width: 200px;
+    width: 120px;
+    min-width: 120px;
     max-width: 100%;
   }
 }
