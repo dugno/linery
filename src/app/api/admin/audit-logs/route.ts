@@ -8,8 +8,10 @@ export async function GET(request: Request) {
     await requirePermission(request, "audit.read");
     const url = new URL(request.url);
     const limit = getSearchParamNumber(url.searchParams, "limit", 50, 200);
+    const page = getSearchParamNumber(url.searchParams, "page", 1, 10000);
+    const result = await listDocs("auditLogs", { limit, orderBy: "createdAt", page });
 
-    return ok(await listDocs("auditLogs", { limit, orderBy: "createdAt" }));
+    return ok(result.items, { pagination: { hasMore: page * limit < result.total, limit, page, total: result.total } });
   } catch (error) {
     return handleApiError(error);
   }

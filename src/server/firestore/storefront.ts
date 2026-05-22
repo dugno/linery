@@ -61,6 +61,14 @@ function sanitizeDocId(value: string) {
   return value.replace(/[/?#[\]]/g, "-");
 }
 
+function normalizeSearchText(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .trim();
+}
+
 function docData<T>(snapshot: FirebaseFirestore.DocumentSnapshot) {
   if (!snapshot.exists) {
     return null;
@@ -265,7 +273,7 @@ export const listRoutes = cacheStorefront(async () => {
 }, ["storefront-routes-list"], { ...storefrontCacheOptions, tags: ["storefront", "routes"] });
 
 export const searchStorefront = cacheStorefront(async (query: string, type: string | undefined = undefined, limit: number = 48) => {
-  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedQuery = normalizeSearchText(query);
 
   if (!normalizedQuery) {
     return [];
@@ -273,12 +281,30 @@ export const searchStorefront = cacheStorefront(async (query: string, type: stri
 
   type SearchItem = { author?: string; href: string; imageUrl?: string; price?: string; title: string; type: string };
 
-  const snapshot = await getCollection("searchIndex").get();
+  if (!type || type === "product") {
+    const productsSnapshot = await getCollection("products").where("status", "==", "active").get();
 
-  return snapshot.docs
+    return productsSnapshot.docs
+      .map((doc) => docData<ProductDocument>(doc))
+      .filter((product): product is ProductDocument & { id: string } => Boolean(product))
+      .map<SearchItem>((product) => ({
+        author: product.author,
+        href: product.href,
+        imageUrl: product.image?.src,
+        price: formatVndPrice(product.price),
+        title: product.title,
+        type: "product",
+      }))
+      .filter((item) => normalizeSearchText([item.title, item.author, item.type].filter(Boolean).join(" ")).includes(normalizedQuery))
+      .slice(0, limit);
+  }
+
+  const searchSnapshot = await getCollection("searchIndex").get();
+
+  return searchSnapshot.docs
     .map((doc) => docData<SearchItem>(doc))
     .filter((item): item is SearchItem & { id: string } => Boolean(item))
     .filter((item) => !type || item.type === type)
-    .filter((item) => [item.title, item.author, item.type].filter(Boolean).join(" ").toLowerCase().includes(normalizedQuery))
+    .filter((item) => normalizeSearchText([item.title, item.author, item.type].filter(Boolean).join(" ")).includes(normalizedQuery))
     .slice(0, limit);
 }, ["storefront-search"], storefrontCacheOptions);

@@ -4,49 +4,79 @@ import { serializeFirestoreValue } from "@/server/firestore/serialize";
 
 export type ListOptions = {
   limit: number;
+  page?: number;
   orderBy?: string;
   paymentStatus?: string;
   query?: string;
   status?: string;
 };
 
+export type ListDocsResult = {
+  items: Array<Record<string, unknown>>;
+  total: number;
+};
+
 function collection(name: string) {
   return getFirebaseAdmin().db.collection(name);
 }
 
-export async function listDocs(collectionName: string, options: ListOptions = { limit: 50 }) {
-  let query: FirebaseFirestore.Query = collection(collectionName).limit(options.limit);
+export async function listDocs(collectionName: string, options: ListOptions = { limit: 50 }): Promise<ListDocsResult> {
+  const page = options.page && options.page > 0 ? options.page : 1;
+  const offset = (page - 1) * options.limit;
+  let baseQuery: FirebaseFirestore.Query = collection(collectionName);
 
   if (options.orderBy) {
-    query = collection(collectionName).orderBy(options.orderBy, "desc").limit(options.limit);
+    baseQuery = baseQuery.orderBy(options.orderBy, "desc");
   }
 
-  const snapshot = await query.get();
+  if (options.status) {
+    baseQuery = baseQuery.where("status", "==", options.status);
+  }
 
-  return snapshot.docs
-    .map((doc) =>
+  if (options.paymentStatus) {
+    baseQuery = baseQuery.where("paymentStatus", "==", options.paymentStatus);
+  }
+
+  if (options.query) {
+    const snapshot = await baseQuery.get();
+    const filtered = snapshot.docs
+      .map((doc) =>
+        serializeFirestoreValue({
+          id: doc.id,
+          ...doc.data(),
+        }) as Record<string, unknown>,
+      )
+      .filter((doc) => {
+        if (options.status && doc.status !== options.status) {
+          return false;
+        }
+
+        if (options.paymentStatus && doc.paymentStatus !== options.paymentStatus) {
+          return false;
+        }
+
+        return JSON.stringify(doc).toLowerCase().includes(options.query!.toLowerCase());
+      });
+
+    return {
+      items: filtered.slice(offset, offset + options.limit),
+      total: filtered.length,
+    };
+  }
+
+  const query = baseQuery.limit(options.limit).offset(offset);
+  const snapshot = await query.get();
+  const countSnapshot = await baseQuery.count().get();
+
+  return {
+    items: snapshot.docs.map((doc) =>
       serializeFirestoreValue({
         id: doc.id,
         ...doc.data(),
-      }),
-    )
-    .filter((doc) => {
-      const item = doc as Record<string, unknown>;
-
-      if (options.status && item.status !== options.status) {
-        return false;
-      }
-
-      if (options.paymentStatus && item.paymentStatus !== options.paymentStatus) {
-        return false;
-      }
-
-      if (!options.query) {
-        return true;
-      }
-
-      return JSON.stringify(item).toLowerCase().includes(options.query.toLowerCase());
-    });
+      }) as Record<string, unknown>,
+    ),
+    total: countSnapshot.data().count,
+  };
 }
 
 export async function getDoc(collectionName: string, id: string) {

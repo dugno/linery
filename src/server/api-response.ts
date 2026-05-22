@@ -11,6 +11,7 @@ export type ApiPagination = {
   limit: number;
   nextCursor?: string;
   page: number;
+  total?: number;
 };
 
 export type ApiEnvelope<T> = {

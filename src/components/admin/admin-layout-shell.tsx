@@ -54,6 +54,7 @@ const navItems = [
   { href: "/admin/settings", marker: "St", permission: "settings.read", titleKey: "admin.nav.settings" },
   { href: "/admin/media", marker: "M", permission: "media.read", titleKey: "admin.nav.media" },
   { href: "/admin/pages", marker: "Pg", permission: "content.read", titleKey: "admin.nav.pages" },
+  { href: "/admin/home", marker: "H", permission: "content.read", titleKey: "admin.nav.home" },
   { href: "/admin/blogs", marker: "B", permission: "content.read", titleKey: "admin.nav.blogs" },
   { href: "/admin/articles", marker: "A", permission: "content.read", titleKey: "admin.nav.articles" },
   { href: "/admin/users", marker: "U", permission: "users.read", titleKey: "admin.nav.users" },

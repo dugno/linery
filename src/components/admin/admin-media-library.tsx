@@ -23,6 +23,8 @@ type ApiEnvelope<T> = {
   success: boolean;
 };
 
+const LIST_PAGE_SIZE_OPTIONS = [24, 48, 96];
+
 async function requestJson<T>(url: string, init?: RequestInit) {
   const response = await fetch(url, init);
   const payload = (await response.json()) as ApiEnvelope<T>;
@@ -42,13 +44,18 @@ export default function AdminMediaLibrary() {
   const [items, setItems] = useState<MediaAsset[]>([]);
   const [message, setMessage] = useState("");
   const [isBusy, setIsBusy] = useState(false);
+  const [listPage, setListPage] = useState(1);
+  const [listPageSize, setListPageSize] = useState(48);
+  const totalPages = Math.max(1, Math.ceil(items.length / listPageSize));
+  const currentListPage = Math.min(listPage, totalPages);
+  const pagedItems = items.slice((currentListPage - 1) * listPageSize, currentListPage * listPageSize);
 
   async function load() {
     setIsBusy(true);
     setMessage("");
 
     try {
-      setItems(await requestJson<MediaAsset[]>("/api/admin/media?limit=200"));
+      setItems(await requestJson<MediaAsset[]>("/api/admin/media?limit=300"));
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Không tải được thư viện ảnh.");
     } finally {
@@ -130,7 +137,7 @@ export default function AdminMediaLibrary() {
       {message ? <div className={`tsq-admin-alert ${message.includes("thành công") || message.includes("Đã xoá") ? "success" : "error"}`}>{message}</div> : null}
 
       <section className="tsq-admin-media-grid">
-        {items.map((item) => (
+        {pagedItems.map((item) => (
           <article className="tsq-admin-media-card" key={item.id}>
             <img src={item.url} alt={item.originalName || item.fileName || item.id} loading="lazy" />
             <div className="tsq-admin-media-actions">
@@ -146,6 +153,23 @@ export default function AdminMediaLibrary() {
           </article>
         ))}
       </section>
+      <div className="tsq-admin-filter-row">
+        <select value={String(listPageSize)} onChange={(event) => {
+          setListPageSize(Number(event.target.value));
+          setListPage(1);
+        }}>
+          {LIST_PAGE_SIZE_OPTIONS.map((size) => (
+            <option key={size} value={size}>{size}/trang</option>
+          ))}
+        </select>
+        <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage <= 1 || isBusy} onClick={() => setListPage((current) => Math.max(1, current - 1))}>
+          Trước
+        </button>
+        <span className="tsq-admin-muted">Trang {currentListPage}/{totalPages} · {items.length} ảnh</span>
+        <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage >= totalPages || isBusy} onClick={() => setListPage((current) => Math.min(totalPages, current + 1))}>
+          Sau
+        </button>
+      </div>
     </div>
   );
 }

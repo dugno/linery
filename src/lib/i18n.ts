@@ -65,6 +65,7 @@ const dictionary = {
     "admin.nav.collections": "Danh mục",
     "admin.nav.dashboard": "Bảng điều khiển",
     "admin.nav.discounts": "Mã giảm giá",
+    "admin.nav.home": "Trang chủ",
     "admin.nav.media": "Thư viện ảnh",
     "admin.nav.orders": "Đơn hàng",
     "admin.nav.pages": "Trang nội dung",
@@ -183,6 +184,7 @@ const dictionary = {
     "admin.nav.collections": "Collections",
     "admin.nav.dashboard": "Dashboard",
     "admin.nav.discounts": "Discount codes",
+    "admin.nav.home": "Home page",
     "admin.nav.media": "Media library",
     "admin.nav.orders": "Orders",
     "admin.nav.pages": "Content pages",
@@ -258,6 +260,7 @@ const literalKeys: Partial<Record<string, TranslationKey>> = {
   "Phí vận chuyển": "admin.nav.shipping",
   "Sản phẩm": "admin.nav.products",
   "Thư viện ảnh": "admin.nav.media",
+  "Trang chủ": "admin.nav.home",
   "Trang nội dung": "admin.nav.pages",
 };
 

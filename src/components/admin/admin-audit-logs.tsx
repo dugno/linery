@@ -21,14 +21,21 @@ type ApiEnvelope<T> = {
   success: boolean;
 };
 
+const LIST_PAGE_SIZE_OPTIONS = [25, 50, 100];
+
 export default function AdminAuditLogs() {
   const [items, setItems] = useState<AuditLog[]>([]);
   const [message, setMessage] = useState("");
+  const [listPage, setListPage] = useState(1);
+  const [listPageSize, setListPageSize] = useState(50);
+  const totalPages = Math.max(1, Math.ceil(items.length / listPageSize));
+  const currentListPage = Math.min(listPage, totalPages);
+  const pagedItems = items.slice((currentListPage - 1) * listPageSize, currentListPage * listPageSize);
 
   useEffect(() => {
     let ignore = false;
 
-    fetch("/api/admin/audit-logs?limit=100", { cache: "no-store" })
+    fetch("/api/admin/audit-logs?limit=200", { cache: "no-store" })
       .then((response) => response.json() as Promise<ApiEnvelope<AuditLog[]>>)
       .then((payload) => {
         if (!ignore) {
@@ -59,13 +66,30 @@ export default function AdminAuditLogs() {
       {message ? <div className="tsq-admin-alert error">{message}</div> : null}
       <section className="tsq-admin-panel">
         <div className="tsq-admin-audit-table">
-          {items.map((item) => (
+          {pagedItems.map((item) => (
             <article key={item.id}>
               <span>{item.action || "-"}</span>
               <strong>{item.collectionName}/{item.documentId}</strong>
               <small>{item.adminEmail || item.adminUid || "admin"} · {item.createdAt || ""}</small>
             </article>
           ))}
+        </div>
+        <div className="tsq-admin-filter-row">
+          <select value={String(listPageSize)} onChange={(event) => {
+            setListPageSize(Number(event.target.value));
+            setListPage(1);
+          }}>
+            {LIST_PAGE_SIZE_OPTIONS.map((size) => (
+              <option key={size} value={size}>{size}/trang</option>
+            ))}
+          </select>
+          <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage <= 1} onClick={() => setListPage((current) => Math.max(1, current - 1))}>
+            Trước
+          </button>
+          <span className="tsq-admin-muted">Trang {currentListPage}/{totalPages} · {items.length} dòng</span>
+          <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage >= totalPages} onClick={() => setListPage((current) => Math.min(totalPages, current + 1))}>
+            Sau
+          </button>
         </div>
       </section>
     </div>

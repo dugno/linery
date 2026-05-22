@@ -11,22 +11,23 @@ type IdContext<ParamName extends string> = {
   params: Promise<Record<ParamName, string>>;
 };
 
-export function listHandler(collectionName: string, permission: AdminPermission, orderBy?: string) {
+export function listHandler(collectionName: string, permission: AdminPermission, orderBy?: string, maxLimit = 200) {
   return async function GET(request: Request) {
     try {
       await requirePermission(request, permission);
       const url = new URL(request.url);
-      const limit = getSearchParamNumber(url.searchParams, "limit", 50, 200);
+      const limit = getSearchParamNumber(url.searchParams, "limit", 50, maxLimit);
+      const page = getSearchParamNumber(url.searchParams, "page", 1, 10000);
+      const result = await listDocs(collectionName, {
+        limit,
+        orderBy,
+        page,
+        paymentStatus: url.searchParams.get("paymentStatus") || undefined,
+        query: url.searchParams.get("q") || undefined,
+        status: url.searchParams.get("status") || undefined,
+      });
 
-      return ok(
-        await listDocs(collectionName, {
-          limit,
-          orderBy,
-          paymentStatus: url.searchParams.get("paymentStatus") || undefined,
-          query: url.searchParams.get("q") || undefined,
-          status: url.searchParams.get("status") || undefined,
-        }),
-      );
+      return ok(result.items, { pagination: { hasMore: page * limit < result.total, limit, page, total: result.total } });
     } catch (error) {
       return handleApiError(error);
     }

@@ -23,6 +23,12 @@ type ApiEnvelope<T> = {
     code: string;
     message: string;
   };
+  pagination?: {
+    hasMore: boolean;
+    limit: number;
+    page: number;
+    total?: number;
+  };
   success: boolean;
 };
 
@@ -48,6 +54,8 @@ type ResourcePermissions = {
   delete: string;
   update: string | string[];
 };
+
+const LIST_PAGE_SIZE_OPTIONS = [25, 50, 100];
 
 function stringify(value: unknown) {
   return JSON.stringify(value, null, 2);
@@ -96,6 +104,10 @@ function getItemId(item: Record<string, unknown>, idField: string) {
 }
 
 function getColumns(endpoint: string) {
+  if (endpoint.includes("admin/home")) {
+    return ["title", "sliderLink", "type", "slug"];
+  }
+
   if (endpoint.includes("products")) {
     return ["title", "author", "price", "inventoryQuantity", "status"];
   }
@@ -193,6 +205,26 @@ async function requestJson<T>(url: string, init?: RequestInit) {
   return payload.data as T;
 }
 
+async function requestEnvelope<T>(url: string, init?: RequestInit) {
+  const headers = init?.body instanceof FormData
+    ? init?.headers
+    : {
+        "content-type": "application/json",
+        ...init?.headers,
+      };
+  const response = await fetch(url, {
+    ...init,
+    headers,
+  });
+  const payload = (await response.json()) as ApiEnvelope<T>;
+
+  if (!payload.success) {
+    throw new Error(payload.error?.message || "Yêu cầu không thành công.");
+  }
+
+  return payload;
+}
+
 export default function AdminShell({ createTemplate, detailPath, endpoint, idField, mode = "list", title }: AdminShellProps) {
   const { locale, setLocale, t } = useLanguage();
   const { permissions, setShowAdvancedJsonEditor, showAdvancedJsonEditor = true } = useAdminPermissions();
@@ -210,8 +242,12 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
   const [isBusy, setIsBusy] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mediaItems, setMediaItems] = useState<MediaAsset[]>([]);
+  const [isCreateMode, setIsCreateMode] = useState(false);
   const [paymentStatusFilter, setPaymentStatusFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [listPage, setListPage] = useState(1);
+  const [listPageSize, setListPageSize] = useState(50);
+  const [totalItems, setTotalItems] = useState(0);
   const columns = useMemo(() => getColumns(endpoint), [endpoint]);
   const resourcePermissions = useMemo(() => getResourcePermissions(endpoint), [endpoint]);
   const canCreate = Boolean(resourcePermissions.create && hasAdminPermission(permissions, resourcePermissions.create));
@@ -228,15 +264,11 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     return selectedId ? `${endpoint}/${encodeURIComponent(selectedId)}` : endpoint;
   }, [endpoint, mode, selectedId]);
   const selectedItem = useMemo(() => items.find((item) => getItemId(item, idField) === selectedId) || null, [idField, items, selectedId]);
-  const filteredItems = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    if (!normalizedQuery) {
-      return items;
-    }
-
-    return items.filter((item) => stringify(item).toLowerCase().includes(normalizedQuery));
-  }, [items, query]);
+  const shouldShowEditor = mode === "singleton" || isCreateMode || Boolean(selectedId);
+  const filteredItems = items;
+  const totalPages = Math.max(1, Math.ceil(totalItems / listPageSize));
+  const currentListPage = Math.min(listPage, totalPages);
+  const pagedItems = filteredItems;
   const editorObject = useMemo(() => {
     try {
       return parseJson(editorValue);
@@ -247,6 +279,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
   const topbarActionsSlot = typeof document === "undefined" ? null : document.getElementById("tsq-admin-topbar-actions-slot");
   const canSaveCurrent = Boolean(editorValue && ((!selectedId && canCreate) || (Boolean(selectedId) && canUpdate) || mode === "singleton"));
   const isInitialFilterLoad = useRef(true);
+  const createButtonLabel = isProductResource ? "Thêm sách" : t("admin.createNew");
 
   async function run(label: string, action: () => Promise<void>) {
     setIsBusy(true);
@@ -281,14 +314,22 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
         params.set("paymentStatus", paymentStatusFilter);
       }
 
-      const data = await requestJson<Record<string, unknown> | Array<Record<string, unknown>>>(`${endpoint}${params.size ? `?${params.toString()}` : ""}`);
+      if (mode === "list") {
+        params.set("limit", String(listPageSize));
+        params.set("page", String(currentListPage));
+      }
+
+      const payload = await requestEnvelope<Record<string, unknown> | Array<Record<string, unknown>>>(`${endpoint}${params.size ? `?${params.toString()}` : ""}`);
+      const data = payload.data;
 
       if (Array.isArray(data)) {
         setItems(data);
+        setTotalItems(payload.pagination?.total || data.length);
         setEditorValue(data[0] ? stringify(data[0]) : createTemplate ? stringify(createTemplate) : "");
         setSelectedId(data[0] ? getItemId(data[0], idField) : "");
       } else {
         setItems([]);
+        setTotalItems(0);
         setSelectedId(String(data?.[idField] || data?.id || "main"));
         setEditorValue(stringify(data || createTemplate || {}));
       }
@@ -306,7 +347,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
 
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endpoint]);
+  }, [currentListPage, endpoint, listPageSize]);
 
   useEffect(() => {
     if (isInitialFilterLoad.current) {
@@ -320,7 +361,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
 
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentStatusFilter, statusFilter]);
+  }, [paymentStatusFilter, query, statusFilter]);
 
   useEffect(() => {
     if (!isProductResource || !canReadCollections) {
@@ -350,6 +391,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     const id = getItemId(item, idField);
 
     setSelectedId(id);
+    setIsCreateMode(false);
     setEditorValue(stringify(item));
 
     if (!id) {
@@ -367,6 +409,8 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
 
   function startNew() {
     setSelectedId("");
+    setIsCreateMode(true);
+    setStatusFilter("");
     setEditorValue(stringify(createTemplate || {}));
     setMessage("");
   }
@@ -658,7 +702,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
       );
     }
 
-    if (endpoint.includes("collections") || endpoint.includes("pages") || endpoint.includes("blogs") || endpoint.includes("articles")) {
+  if (endpoint.includes("collections") || endpoint.includes("pages") || endpoint.includes("blogs") || endpoint.includes("articles")) {
       return (
         <div className="tsq-admin-quick-form">
           {renderTextField("Tiêu đề", "title")}
@@ -689,6 +733,18 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     );
   }
 
+  if (endpoint.includes("admin/home")) {
+    return (
+      <div className="tsq-admin-quick-form">
+        {renderTextField("Tiêu đề trang", "title")}
+        {renderTextField("Đường dẫn khi bấm banner", "sliderLink", "/collections/all")}
+        {renderTextField("Ảnh banner (URL)", "sliderImage.src")}
+        {renderTextField("Alt ảnh banner", "sliderImage.alt")}
+        {renderMediaPicker("sliderImage.src")}
+      </div>
+    );
+  }
+
   async function saveCurrent() {
     const parsed = parseJson(editorValue);
     const method = selectedId || mode === "singleton" ? "PATCH" : "POST";
@@ -700,6 +756,8 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     const savedId = String(saved?.[idField] || saved?.id || selectedId);
 
     setSelectedId(savedId);
+    setIsCreateMode(false);
+    setStatusFilter("");
     setEditorValue(stringify(saved));
 
     if (endpoint.includes("site-settings")) {
@@ -737,8 +795,17 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
     const deleted = await requestJson<Record<string, unknown>>(selectedEndpoint, { method: "DELETE" });
 
     setEditorValue(stringify(deleted));
-    setItems((currentItems) => currentItems.filter((item) => getItemId(item, idField) !== selectedId));
-    setSelectedId("");
+    setItems((currentItems) => {
+      const currentIndex = currentItems.findIndex((item) => getItemId(item, idField) === selectedId);
+      const nextItems = currentItems.filter((item) => getItemId(item, idField) !== selectedId);
+      const fallbackItem = nextItems[currentIndex] || nextItems[currentIndex - 1] || null;
+
+      setSelectedId(fallbackItem ? getItemId(fallbackItem, idField) : "");
+      setIsCreateMode(false);
+      setEditorValue(fallbackItem ? stringify(fallbackItem) : stringify(deleted));
+
+      return nextItems;
+    });
   }
 
   function renderOrderItems() {
@@ -778,15 +845,20 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
               </button>
               {createTemplate && canCreate ? (
                 <button className="tsq-admin-primary-button" type="button" disabled={isBusy} onClick={startNew}>
-                  {t("admin.createNew")}
+                  {createButtonLabel}
                 </button>
               ) : null}
-              <button className="tsq-admin-primary-button" type="button" disabled={isBusy || !canSaveCurrent} onClick={() => run(selectedId ? t("admin.save") : t("admin.createNew"), saveCurrent)}>
-                {t("admin.save")}
-              </button>
-              {mode === "list" && selectedId && canDelete ? (
-                <button className="tsq-admin-danger-button" type="button" disabled={isBusy} onClick={() => run(t("admin.deleteArchive"), deleteCurrent)}>
-                  {t("admin.deleteArchive")}
+              {isCreateMode ? (
+                <button
+                  className="tsq-admin-secondary-button"
+                  type="button"
+                  disabled={isBusy || isLoading}
+                  onClick={() => {
+                    setIsCreateMode(false);
+                    void loadData();
+                  }}
+                >
+                  Quay lại danh sách
                 </button>
               ) : null}
             </>,
@@ -803,24 +875,33 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
 
       {message ? <div className={`tsq-admin-alert ${message.includes("thành công") ? "success" : "error"}`}>{message}</div> : null}
 
-      <div className={mode === "singleton" ? "tsq-admin-single-grid" : "tsq-admin-resource-grid"}>
-        {mode === "list" ? (
+      <div className={mode === "singleton" || (mode === "list" && isCreateMode) ? "tsq-admin-single-grid" : "tsq-admin-resource-grid"}>
+        {mode === "list" && !isCreateMode ? (
           <section className="tsq-admin-panel tsq-admin-list-panel">
             <div className="tsq-admin-panel-header">
               <h2>{t("admin.resource.documents")}</h2>
-              <span>{filteredItems.length}/{items.length}</span>
+              <span>{items.length}/{totalItems}</span>
             </div>
-            <input className="tsq-admin-search" placeholder={t("admin.resource.searchPlaceholder")} value={query} onChange={(event) => setQuery(event.target.value)} />
+            <input className="tsq-admin-search" placeholder={t("admin.resource.searchPlaceholder")} value={query} onChange={(event) => {
+              setQuery(event.target.value);
+              setListPage(1);
+            }} />
             {hasListFilters ? (
               <div className="tsq-admin-filter-row">
-                <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+                <select value={statusFilter} onChange={(event) => {
+                  setStatusFilter(event.target.value);
+                  setListPage(1);
+                }}>
                   <option value="">{t("admin.resource.allStatus")}</option>
                   {(endpoint.includes("products") ? ["active", "draft", "archived"] : ["pending_payment", "confirmed", "shipping", "completed", "cancelled"]).map((status) => (
                     <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
                 {endpoint.includes("orders") ? (
-                  <select value={paymentStatusFilter} onChange={(event) => setPaymentStatusFilter(event.target.value)}>
+                  <select value={paymentStatusFilter} onChange={(event) => {
+                    setPaymentStatusFilter(event.target.value);
+                    setListPage(1);
+                  }}>
                     <option value="">{t("admin.resource.allPayment")}</option>
                     {["unpaid", "paid", "cod_pending", "refunded"].map((status) => (
                       <option key={status} value={status}>{status}</option>
@@ -831,8 +912,8 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
             ) : null}
             <div className="tsq-admin-table">
               {isLoading ? <div className="tsq-admin-empty">{t("admin.loadingData")}</div> : null}
-              {!isLoading && filteredItems.length === 0 ? <div className="tsq-admin-empty">{t("admin.empty")}</div> : null}
-              {filteredItems.map((item) => {
+              {!isLoading && pagedItems.length === 0 ? <div className="tsq-admin-empty">{t("admin.empty")}</div> : null}
+              {pagedItems.map((item) => {
                 const id = getItemId(item, idField);
                 const subtitle = getItemSubtitle(item, endpoint);
 
@@ -846,39 +927,90 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
                 );
               })}
             </div>
+            <div className="tsq-admin-filter-row">
+              <select value={String(listPageSize)} onChange={(event) => {
+                setListPageSize(Number(event.target.value));
+                setListPage(1);
+              }}>
+                {LIST_PAGE_SIZE_OPTIONS.map((size) => (
+                  <option key={size} value={size}>{size}/trang</option>
+                ))}
+              </select>
+              <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage <= 1} onClick={() => setListPage((current) => Math.max(1, current - 1))}>
+                Trước
+              </button>
+              <span className="tsq-admin-muted">Trang {currentListPage}/{totalPages}</span>
+              <button className="tsq-admin-secondary-button" type="button" disabled={currentListPage >= totalPages} onClick={() => setListPage((current) => Math.min(totalPages, current + 1))}>
+                Sau
+              </button>
+            </div>
           </section>
         ) : null}
 
-        <section className="tsq-admin-panel tsq-admin-detail-panel">
-          <div className="tsq-admin-panel-header">
-            <h2>{selectedId || mode === "singleton" ? t("admin.detail") : t("admin.newDocument")}</h2>
-            {detailPath ? <Link href={detailPath}>Mở trên cửa hàng</Link> : null}
-          </div>
-
-          {selectedItem ? (
-            <div className="tsq-admin-detail-summary">
-              {columns.map((column) => (
-                <div key={column}>
-                  <span>{column}</span>
-                  <strong>{getValue(selectedItem, column) || "-"}</strong>
-                </div>
-              ))}
+        {shouldShowEditor ? (
+          <section className="tsq-admin-panel tsq-admin-detail-panel">
+            <div className="tsq-admin-panel-header">
+              <h2>{selectedId || mode === "singleton" ? t("admin.detail") : t("admin.newDocument")}</h2>
+              {detailPath ? <Link href={detailPath}>Mở trên cửa hàng</Link> : null}
             </div>
-          ) : null}
 
-          <h3 className="tsq-admin-subheading">Chỉnh nhanh</h3>
-          {renderQuickEditor()}
-          {renderOrderItems()}
+            {selectedItem ? (
+              <div className="tsq-admin-detail-summary">
+                {columns.map((column) => (
+                  <div key={column}>
+                    <span>{column}</span>
+                    <strong>{getValue(selectedItem, column) || "-"}</strong>
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
-          {showAdvancedJsonEditor ? (
-            <>
-              <label className="tsq-admin-editor-label" htmlFor={`${title}-json-editor`}>
-                Trình chỉnh sửa JSON nâng cao
-              </label>
-              <textarea id={`${title}-json-editor`} value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck={false} />
-            </>
-          ) : null}
-        </section>
+            <h3 className="tsq-admin-subheading">Chỉnh nhanh</h3>
+            {renderQuickEditor()}
+            {renderOrderItems()}
+
+            {showAdvancedJsonEditor ? (
+              <>
+                <label className="tsq-admin-editor-label" htmlFor={`${title}-json-editor`}>
+                  Trình chỉnh sửa JSON nâng cao
+                </label>
+                <textarea id={`${title}-json-editor`} value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck={false} />
+              </>
+            ) : null}
+            <div className="tsq-admin-inline-actions">
+              <button
+                className="tsq-admin-primary-button"
+                type="button"
+                disabled={isBusy || !canSaveCurrent}
+                onClick={() => run(selectedId ? t("admin.save") : (isProductResource ? "Thêm sách" : t("admin.createNew")), saveCurrent)}
+              >
+                {selectedId ? t("admin.save") : (isProductResource ? "Lưu sách" : t("admin.createNew"))}
+              </button>
+              {mode === "list" && selectedId && canDelete ? (
+                <button className="tsq-admin-danger-button" type="button" disabled={isBusy} onClick={() => run(t("admin.deleteArchive"), deleteCurrent)}>
+                  {t("admin.deleteArchive")}
+                </button>
+              ) : null}
+              {isCreateMode ? (
+                <button
+                  className="tsq-admin-secondary-button"
+                  type="button"
+                  disabled={isBusy || isLoading}
+                  onClick={() => {
+                    setIsCreateMode(false);
+                    void loadData();
+                  }}
+                >
+                  Quay lại danh sách
+                </button>
+              ) : null}
+            </div>
+          </section>
+        ) : (
+          <section className="tsq-admin-panel tsq-admin-detail-panel">
+            <div className="tsq-admin-empty">Chọn sách trong danh sách hoặc bấm `Thêm sách`.</div>
+          </section>
+        )}
       </div>
     </div>
   );
