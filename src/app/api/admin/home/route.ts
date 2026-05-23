@@ -2,6 +2,7 @@ import { handleApiError, ok } from "@/server/api-response";
 import { writeAuditLog } from "@/server/admin/audit";
 import { requirePermission, withAuditFields } from "@/server/admin/auth";
 import { getDoc, normalizeAdminData, patchDoc } from "@/server/admin/firestore";
+import { revalidateStorefront } from "@/server/admin/revalidate";
 import { adminContentPatchSchema } from "@/server/schemas/admin";
 import { parseJson } from "@/server/request";
 
@@ -22,6 +23,7 @@ export async function PATCH(request: Request) {
     const before = await getDoc("home", "main");
     const patched = await patchDoc("home", "main", data);
 
+    revalidateStorefront(["home"]);
     await writeAuditLog({ action: "patch", admin, after: patched, before, collectionName: "home", documentId: "main" });
 
     return ok(patched);

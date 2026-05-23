@@ -740,6 +740,16 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
         {renderTextField("Đường dẫn khi bấm banner", "sliderLink", "/collections/all")}
         {renderTextField("Ảnh banner (URL)", "sliderImage.src")}
         {renderTextField("Alt ảnh banner", "sliderImage.alt")}
+        <div className="tsq-admin-inline-actions tsq-admin-home-save-actions">
+          <button
+            className="tsq-admin-primary-button"
+            type="button"
+            disabled={isBusy || !canSaveCurrent}
+            onClick={() => run(t("admin.save"), saveCurrent)}
+          >
+            {t("admin.save")}
+          </button>
+        </div>
         {renderMediaPicker("sliderImage.src")}
       </div>
     );
@@ -953,6 +963,18 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
               <h2>{selectedId || mode === "singleton" ? t("admin.detail") : t("admin.newDocument")}</h2>
               {detailPath ? <Link href={detailPath}>Mở trên cửa hàng</Link> : null}
             </div>
+            {mode === "singleton" ? (
+              <div className="tsq-admin-editor-actions">
+                <button
+                  className="tsq-admin-primary-button"
+                  type="button"
+                  disabled={isBusy || !canSaveCurrent}
+                  onClick={() => run(t("admin.save"), saveCurrent)}
+                >
+                  {t("admin.save")}
+                </button>
+              </div>
+            ) : null}
 
             {selectedItem ? (
               <div className="tsq-admin-detail-summary">
@@ -977,7 +999,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
                 <textarea id={`${title}-json-editor`} value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck={false} />
               </>
             ) : null}
-            <div className="tsq-admin-inline-actions">
+            {mode === "singleton" ? null : <div className="tsq-admin-inline-actions">
               <button
                 className="tsq-admin-primary-button"
                 type="button"
@@ -1004,7 +1026,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
                   Quay lại danh sách
                 </button>
               ) : null}
-            </div>
+            </div>}
           </section>
         ) : (
           <section className="tsq-admin-panel tsq-admin-detail-panel">

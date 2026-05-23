@@ -143,7 +143,7 @@ export const getHome = cacheStorefront(async () => {
   const snapshot = await getCollection("home").doc("main").get();
 
   return docData<HomePage & { href: string; slug: string; type: "home" }>(snapshot);
-}, ["storefront-home"], storefrontCacheOptions);
+}, ["storefront-home"], { ...storefrontCacheOptions, tags: ["storefront", "home"] });
 
 export const getProduct = cacheStorefront(async (slug: string) => {
   const snapshot = await getCollection("products").doc(slug).get();

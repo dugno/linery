@@ -28,6 +28,18 @@ async function getQueryCount(query: FirebaseFirestore.Query) {
   return snapshot.data().count;
 }
 
+function isFirestoreMissingIndexError(error: unknown) {
+  return Boolean(
+    error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: unknown }).code === 9 &&
+      "message" in error &&
+      typeof (error as { message?: unknown }).message === "string" &&
+      (error as { message: string }).message.includes("index"),
+  );
+}
+
 export async function getAdminDashboardOverview() {
   const { db } = getFirebaseAdmin();
   const productsCollection = db.collection("products");
@@ -70,10 +82,25 @@ export async function getAdminDashboardRecentOrders() {
 
 export async function getAdminDashboardLowStock() {
   const { db } = getFirebaseAdmin();
-  const lowStockSnapshot = await db.collection("products").where("status", "==", "active").where("inventoryQuantity", "<=", 3).orderBy("inventoryQuantity", "asc").limit(8).get();
-  const lowStockProducts = lowStockSnapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as ProductSummary) }));
+  let lowStockProducts: Array<ProductSummary & { id: string }>;
 
-  return lowStockProducts;
+  try {
+    const lowStockSnapshot = await db.collection("products").where("status", "==", "active").where("inventoryQuantity", "<=", 3).orderBy("inventoryQuantity", "asc").limit(8).get();
+    lowStockProducts = lowStockSnapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as ProductSummary) }));
+  } catch (error) {
+    if (!isFirestoreMissingIndexError(error)) {
+      throw error;
+    }
+
+    const activeProductsSnapshot = await db.collection("products").where("status", "==", "active").get();
+    lowStockProducts = activeProductsSnapshot.docs
+      .map((doc) => ({ id: doc.id, ...(doc.data() as ProductSummary) }))
+      .filter((product) => typeof product.inventoryQuantity === "number" && product.inventoryQuantity <= 3)
+      .sort((first, second) => (first.inventoryQuantity ?? 0) - (second.inventoryQuantity ?? 0))
+      .slice(0, 8);
+  }
+
+  return serializeFirestoreValue(lowStockProducts);
 }
 
 export async function getAdminDashboardStatuses() {
