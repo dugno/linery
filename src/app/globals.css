@@ -1885,6 +1885,45 @@ img {
   }
 }
 
+/* HAI-6 storefront motion layer: calm editorial reveal with reduced-motion support. */
+@keyframes linery-rise-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes linery-slide-in {
+  from { opacity: 0; transform: translateX(-28px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.mirror-page .section_slider,
+.mirror-page .heading-bar,
+.mirror-page .item_product_main,
+.mirror-page .footer-block {
+  animation: linery-rise-in .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.mirror-page .section_slider { animation-name: linery-slide-in; }
+.mirror-page .section_index_prd:nth-of-type(odd) .item_product_main { animation-name: linery-slide-in; }
+.mirror-page .section_index_prd:nth-of-type(even) .item_product_main { animation-name: linery-rise-in; }
+.mirror-page .item_product_main:nth-child(2) { animation-delay: 80ms; }
+.mirror-page .item_product_main:nth-child(3) { animation-delay: 160ms; }
+.mirror-page .item_product_main:nth-child(4) { animation-delay: 240ms; }
+.mirror-page .item_product_main:nth-child(5) { animation-delay: 320ms; }
+.mirror-page .item_product_main:nth-child(6) { animation-delay: 400ms; }
+
+.mirror-page .section_index_prd { content-visibility: auto; contain-intrinsic-size: 560px; }
+.mirror-page .home-slider:after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.2), transparent 65%); transform: translateX(-120%); transition: transform .8s ease; }
+.mirror-page .home-slider:hover:after { transform: translateX(120%); }
+.mirror-page .home-slider a { display: block; overflow: hidden; border-radius: inherit; }
+.mirror-page .home-slider img { transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
+.mirror-page .home-slider:hover img { transform: scale(1.025); }
+.mirror-page .header-icon, .mirror-page .menu-item__link, .mirror-page .item_product_main { transition: all .25s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mirror-page *, .mirror-page *::before, .mirror-page *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
 /* Linery storefront refresh — Tailwind v4 compatible design tokens and layout polish */
 :root {
   --linery-ink: #1f2a24;
