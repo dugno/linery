@@ -17,6 +17,16 @@ function SiteLink({ children, href, ...props }: React.AnchorHTMLAttributes<HTMLA
   return <a href={href} {...props}>{children}</a>;
 }
 
+function HeaderIcon({ type, label }: { type: "search" | "account" | "cart"; label: string }) {
+  const paths = {
+    search: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4" /></>,
+    account: <><circle cx="12" cy="8" r="3.5" /><path d="M5 20c.8-3.5 3.2-5.5 7-5.5s6.2 2 7 5.5" /></>,
+    cart: <><path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h6.8a2 2 0 0 0 1.9-1.4L19.5 8H6" /><circle cx="9" cy="19" r="1" /><circle cx="17" cy="19" r="1" /></>,
+  };
+
+  return <svg className={`tsq-header-svg-icon tsq-header-svg-icon--${type}`} viewBox="0 0 24 24" aria-label={label} role="img" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[type]}</svg>;
+}
+
 function NavTree({ items, onNavigate }: { items: NavItem[]; onNavigate?: () => void }) {
   return (
     <ul className="navigation navigation-horizontal list-group list-group-flush scroll">
@@ -63,9 +73,9 @@ export default function SiteHeaderClient({ locale, settings }: { locale: Locale;
           </div>
           <div className="header-right ega-d--flex">
             <div className="icon-action header-right__icons" style={{ ["--header-grid-template" as never]: "repeat(3, 1fr)" }}>
-              <SiteLink className="header-icon icon-action__search icon-action__search--desktop" href="/search">{settings.searchIcon?.src ? <img src={settings.searchIcon.src} alt={settings.searchIcon.alt || "icon-search"} /> : t(locale, "common.search")}</SiteLink>
-              <SiteLink id="icon-account" className="ega-color--inherit header-icon icon-account d-none d-lg-block" href="/account/login">{settings.accountIcon?.src ? <img src={settings.accountIcon.src} alt={settings.accountIcon.alt || "icon-account"} /> : "Account"}</SiteLink>
-              <div className="mini-cart text-xs-center"><SiteLink className="header-icon cart-count ega-color--inherit" href="/cart" title={t(locale, "site.cart")}>{settings.cartIcon?.src ? <img src={settings.cartIcon.src} alt={settings.cartIcon.alt || "icon-cart"} /> : t(locale, "site.cart")}<span className="count_item count_item_pr">0</span></SiteLink></div>
+              <SiteLink aria-label={t(locale, "common.search")} className="header-icon icon-action__search icon-action__search--desktop" href="/search"><HeaderIcon type="search" label={t(locale, "common.search")} /></SiteLink>
+              <SiteLink id="icon-account" aria-label="Account" className="ega-color--inherit header-icon icon-account d-none d-lg-block" href="/account/login"><HeaderIcon type="account" label="Account" /></SiteLink>
+              <div className="mini-cart text-xs-center"><SiteLink className="header-icon cart-count ega-color--inherit" href="/cart" title={t(locale, "site.cart")} aria-label={t(locale, "site.cart")}><HeaderIcon type="cart" label={t(locale, "site.cart")} /><span className="count_item count_item_pr">0</span></SiteLink></div>
             </div>
           </div>
         </div>

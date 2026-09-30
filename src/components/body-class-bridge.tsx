@@ -11,7 +11,8 @@ export default function BodyClassBridge({ className, id }: BodyClassBridgeProps)
   useEffect(() => {
     const previous = document.body.className;
     const previousId = document.body.id;
-    document.body.className = className;
+    const storefrontClasses = new Set([...(className || "").split(/\s+/).filter(Boolean), "mirror-page"]);
+    document.body.className = [...storefrontClasses].join(" ");
     document.body.id = id || "";
 
     return () => {
