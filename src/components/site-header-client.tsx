@@ -54,7 +54,10 @@ export default function SiteHeaderClient({ locale, settings }: { locale: Locale;
           <button className="toggle-nav btn menu-bar mr-4 ml-0 p-0 d-lg-none d-flex text-white" type="button" aria-label="Mở menu" onClick={() => setOpen((v) => !v)}>
             <span className="bar" /><span className="bar" /><span className="bar" />
           </button>
-          <div id="logo" aria-hidden="true"><div className="tsq-logo-placeholder" /></div>
+          <Link id="logo" href="/" className="tsq-site-logo" aria-label={settings.siteName || "Linery Bookstore"}>
+            <span className="tsq-logo-mark">L</span>
+            <span className="tsq-logo-copy"><strong>{settings.siteName || "Linery"}</strong><small>Independent books</small></span>
+          </Link>
           <div className={`navigation--horizontal align-items-center ${open ? "d-flex" : "d-none"} d-lg-flex`}>
             <div className="navigation-wrapper navigation-horizontal-wrapper"><nav><NavTree items={settings.menu} onNavigate={() => setOpen(false)} /></nav></div>
           </div>

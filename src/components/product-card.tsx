@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import type { ProductCardData } from "@/content/types";
@@ -8,12 +9,12 @@ export default function ProductCard({ product }: { product: ProductCardData }) {
       <div className="item_product_main">
         <div className="product-thumbnail pos-relative">
           <Link
-            className="image_thumb pos-relative embed-responsive embed-responsive-1by1"
+            className="image_thumb pos-relative embed-responsive embed-responsive-1by1 tsq-product-image"
             href={product.href}
             title={product.title}
           >
             {product.imageUrl ? (
-              <img
+              <Image
                 loading="lazy"
                 className="img-fetured"
                 width={480}
@@ -26,7 +27,7 @@ export default function ProductCard({ product }: { product: ProductCardData }) {
           </Link>
         </div>
 
-        <div className="product-info">
+        <div className="product-info tsq-product-info">
           {product.vendor ? <span className="product-vendor">{product.vendor}</span> : null}
           <span className="product-name">
             <Link className="link line-clamp-2" href={product.href} title={product.title}>

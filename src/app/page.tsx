@@ -23,8 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const page = await getStorefrontPage("/");
-  const settings = await getSiteSettings();
+  const [page, settings] = await Promise.all([getStorefrontPage("/"), getSiteSettings()]);
 
   if (!page) {
     notFound();

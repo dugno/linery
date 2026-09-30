@@ -21,8 +21,12 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href={siteSettings.logo?.src || "/favicon.ico"} />
         {siteAssets.stylesheetUrls.map((href) => (
-          <link key={href} rel="stylesheet" href={href} />
+          <link key={href} rel="preload" href={href} as="style" />
         ))}
+        {siteAssets.stylesheetUrls.map((href) => (
+          <link key={`s-${href}`} rel="stylesheet" href={href} />
+        ))}
+        <link rel="stylesheet" href="/api/custom-css" />
       </head>
       <body className="site-body" suppressHydrationWarning>
         <LanguageProvider initialLocale="vi">{children}</LanguageProvider>

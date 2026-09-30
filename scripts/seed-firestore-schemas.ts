@@ -165,6 +165,7 @@ const schemaDefinitions = {
 };
 
 async function main() {
+  loadEnvFile(path.join(process.cwd(), ".env"));
   loadEnvFile(path.join(process.cwd(), ".env.local"));
 
   const firebaseAdminModule = await import("../src/server/firebase-admin");

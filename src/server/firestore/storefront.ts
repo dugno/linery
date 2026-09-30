@@ -279,25 +279,9 @@ export const searchStorefront = cacheStorefront(async (query: string, type: stri
     return [];
   }
 
-  type SearchItem = { author?: string; href: string; imageUrl?: string; price?: string; title: string; type: string };
+  type SearchItem = { author?: string; href: string; imageUrl?: string; keywords?: string[]; price?: string; title: string; type: string };
 
-  if (!type || type === "product") {
-    const productsSnapshot = await getCollection("products").where("status", "==", "active").get();
-
-    return productsSnapshot.docs
-      .map((doc) => docData<ProductDocument>(doc))
-      .filter((product): product is ProductDocument & { id: string } => Boolean(product))
-      .map<SearchItem>((product) => ({
-        author: product.author,
-        href: product.href,
-        imageUrl: product.image?.src,
-        price: formatVndPrice(product.price),
-        title: product.title,
-        type: "product",
-      }))
-      .filter((item) => normalizeSearchText([item.title, item.author, item.type].filter(Boolean).join(" ")).includes(normalizedQuery))
-      .slice(0, limit);
-  }
+  const queryWords = normalizedQuery.split(/\s+/).filter((w) => w.length >= 2);
 
   const searchSnapshot = await getCollection("searchIndex").get();
 
@@ -305,6 +289,13 @@ export const searchStorefront = cacheStorefront(async (query: string, type: stri
     .map((doc) => docData<SearchItem>(doc))
     .filter((item): item is SearchItem & { id: string } => Boolean(item))
     .filter((item) => !type || item.type === type)
-    .filter((item) => normalizeSearchText([item.title, item.author, item.type].filter(Boolean).join(" ")).includes(normalizedQuery))
+    .filter((item) => {
+      if (item.keywords?.length) {
+        return queryWords.every((qw) => item.keywords!.some((kw) => kw.includes(qw)));
+      }
+
+      return normalizeSearchText([item.title, item.author, item.type].filter(Boolean).join(" ")).includes(normalizedQuery);
+    })
+    .map(({ keywords: _kw, ...rest }) => rest)
     .slice(0, limit);
 }, ["storefront-search"], storefrontCacheOptions);

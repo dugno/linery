@@ -9,6 +9,7 @@ import { useLanguage } from "@/components/language-provider";
 import { normalizeLocale, translateLiteral } from "@/lib/i18n";
 
 type AdminShellProps = {
+  children?: React.ReactNode;
   createTemplate?: Record<string, unknown>;
   detailPath?: string;
   endpoint: string;
@@ -225,7 +226,7 @@ async function requestEnvelope<T>(url: string, init?: RequestInit) {
   return payload;
 }
 
-export default function AdminShell({ createTemplate, detailPath, endpoint, idField, mode = "list", title }: AdminShellProps) {
+export default function AdminShell({ children, createTemplate, detailPath, endpoint, idField, mode = "list", title }: AdminShellProps) {
   const { locale, setLocale, t } = useLanguage();
   const { permissions, setShowAdvancedJsonEditor, showAdvancedJsonEditor = true } = useAdminPermissions();
   const localizedTitle = translateLiteral(locale, title);
@@ -999,6 +1000,7 @@ export default function AdminShell({ createTemplate, detailPath, endpoint, idFie
                 <textarea id={`${title}-json-editor`} value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck={false} />
               </>
             ) : null}
+            {children}
             {mode === "singleton" ? null : <div className="tsq-admin-inline-actions">
               <button
                 className="tsq-admin-primary-button"

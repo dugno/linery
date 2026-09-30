@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import AccountPageContent from "@/components/account-page";
@@ -62,12 +63,7 @@ function SiteFooter({ locale, settings }: { locale: Locale; settings: SiteSettin
           <div className="row">
             <div className="col-xl-3">
               <div className="footer-block footer-click">
-                <div className="logo-wrapper mb-3 d-block" aria-hidden="true">
-                  <div className="tsq-logo-placeholder tsq-logo-placeholder--footer" />
-                </div>
-                <div className="text-base font-semibold mb-2 h4" aria-hidden="true">
-                  <span className="tsq-brand-placeholder" />
-                </div>
+                  <Link href="/" className="tsq-footer-logo"><span className="tsq-logo-mark">L</span><span><strong>{settings.siteName || "Linery"}</strong><small>Independent books</small></span></Link>
                 {settings.contact.address ? (
                   <div className="single-contact">
                     <i className="fa fa-map-marker-alt" />
@@ -156,7 +152,7 @@ function HomeTemplate({ page }: { page: HomePage }) {
         <div className="container">
           <div className="home-slider btn-slide--new">
             <SiteLink href={page.sliderLink || "/collections/all"} title={page.title}>
-              {page.sliderImage?.src ? <img src={page.sliderImage.src} alt={page.sliderImage.alt || page.title} className="img-fluid" /> : null}
+              {page.sliderImage?.src ? <Image src={page.sliderImage.src} alt={page.sliderImage.alt || page.title} className="img-fluid" width={1200} height={450} priority /> : null}
             </SiteLink>
           </div>
         </div>

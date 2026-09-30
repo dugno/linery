@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "tsx --test \"src/**/*.test.ts\"",
     "seed:schemas": "tsx scripts/seed-firestore-schemas.ts",
-    "seed:admin-roles": "tsx scripts/seed-admin-role-accounts.ts"
+    "seed:admin-roles": "tsx scripts/seed-admin-role-accounts.ts",
+    "seed:search-index": "tsx scripts/rebuild-search-index.ts"
   },
   "dependencies": {
     "firebase-admin": "^13.8.0",

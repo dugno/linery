@@ -48,8 +48,7 @@ export async function generateMetadata({
 
 export default async function CatchAllPage({ params }: CatchAllPageProps) {
   const { slug } = await params;
-  const page = await getStorefrontPage(toPath(slug));
-  const settings = await getSiteSettings();
+  const [page, settings] = await Promise.all([getStorefrontPage(toPath(slug)), getSiteSettings()]);
 
   if (!page) {
     notFound();
